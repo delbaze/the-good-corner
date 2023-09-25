@@ -3,18 +3,20 @@ import {
   Column,
   PrimaryGeneratedColumn,
   BaseEntity,
-  OneToMany,
+  ManyToMany,
 } from "typeorm";
-import { Ad } from "./ad";
+import { Ad } from "./ad.entity";
+import { Length } from "class-validator";
 
 @Entity()
-export class Category extends BaseEntity {
+export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
+  @Length(2, 50)
   name: string;
 
-  @OneToMany(() => Ad, (ad) => ad.category)
+  @ManyToMany(() => Ad, (ad) => ad.tags)
   ads: Ad[];
 }

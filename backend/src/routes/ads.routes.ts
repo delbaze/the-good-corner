@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { Ad } from "../entities/ad";
+import { Ad } from "../entities/ad.entity";
 import { In } from "typeorm";
 import { validate } from "class-validator";
 const router = Router();

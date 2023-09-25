@@ -9,8 +9,8 @@ import {
   ManyToMany,
 } from "typeorm";
 import { Length, Min } from "class-validator";
-import { Category } from "./category";
-import { Tag } from "./tag";
+import { Category } from "./category.entity";
+import { Tag } from "./tag.entity";
 
 @Entity()
 export class Ad extends BaseEntity {
