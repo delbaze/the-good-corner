@@ -6,11 +6,12 @@ import { Ad } from "./entities/ad";
 import { Category } from "./entities/category";
 import { Tag } from "./entities/tag";
 import { In, Like } from "typeorm";
-
+import categoryRouter from "./routes/categories";
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use("/categories", categoryRouter)
 
 app.get("/tags", async (req: Request, res: Response) => {
   try {
@@ -25,19 +26,19 @@ app.get("/tags", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/categories", async (req: Request, res: Response) => {
-  try {
-    const categories = await Category.find({
-      relations: {
-        ads: true,
-      },
-    });
-    res.send(categories);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
+// app.get("/categories", async (req: Request, res: Response) => {
+//   try {
+//     const categories = await Category.find({
+//       relations: {
+//         ads: true,
+//       },
+//     });
+//     res.send(categories);
+//   } catch (err) {
+//     console.log(err);
+//     res.sendStatus(500);
+//   }
+// });
 
 app.get("/ads", async (req: Request, res: Response) => {
   const { tagIds } = req.query;
