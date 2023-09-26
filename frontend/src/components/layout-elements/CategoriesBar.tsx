@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import styles from "@/styles/components/layout-elements/CategoriesBar.module.css"
 interface Category {
   id: number;
   name: string;
@@ -24,7 +25,7 @@ const data: Category[] = [
 ];
 function CategoriesBar() {
   return (
-    <div>
+    <div className={styles.categoriesBloc}>
       {data.map((category) => (
         <Link key={category.id} href={`/categories/view/${category.id}`}>{category.name}</Link>
       ))}
