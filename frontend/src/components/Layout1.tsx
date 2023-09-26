@@ -1,10 +1,14 @@
+import CategoriesBar from "./layout-elements/CategoriesBar";
+import Footer from "./layout-elements/Footer";
+import Topbar from "./layout-elements/topbar/Topbar";
+
 function Layout1({ children }: { children: JSX.Element }) {
   return (
     <div>
-      <nav>TopBar</nav>
-      <div>Liste des catégories (sous format texte)</div>
+      <Topbar />
+      <CategoriesBar />
       {children}
-      <footer>Footer</footer>
+      <Footer />
     </div>
   );
 }
