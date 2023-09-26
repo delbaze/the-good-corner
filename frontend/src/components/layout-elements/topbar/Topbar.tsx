@@ -6,7 +6,9 @@ function Topbar() {
   return (
     <nav>
       <div>
-        <Logo />
+        <Link href="/">
+          <Logo />
+        </Link>
       </div>
       <div>
         <SearchBar />
