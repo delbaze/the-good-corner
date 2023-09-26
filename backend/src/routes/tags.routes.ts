@@ -20,12 +20,10 @@ router.post("/create", async (req: Request, res: Response) => {
     // const data = req.body as ICreateTag;
     const data: ICreateTag = req.body;
     const newTag = new TagService().create({ ...data });
-    const errors = await validate(newTag);
-    if (errors.length !== 0) return res.status(422).send({ errors });
     res.send(newTag);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
-    res.sendStatus(500);
+    res.sendStatus(500).json({ message: err.message });
   }
 });
 

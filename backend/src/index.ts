@@ -7,7 +7,7 @@ import tagRouter from "./routes/tags.routes";
 import adRouter from "./routes/ads.routes";
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 app.use(express.json());
 /**========================================================================

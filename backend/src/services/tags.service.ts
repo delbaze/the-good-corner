@@ -2,6 +2,7 @@ import { Like, Repository } from "typeorm";
 import { Tag } from "../entities/tag.entity";
 import datasource from "../db";
 import { ICreateTag } from "../types/tag";
+import { validate } from "class-validator";
 export default class TagService {
   db: Repository<Tag>;
 
@@ -18,6 +19,12 @@ export default class TagService {
 
   async create(data: ICreateTag) {
     const newTag = this.db.create(data);
+    const errors = await validate(newTag);
+    if (errors.length !== 0) {
+      console.log("errors", errors);
+      // return res.status(422).send({ errors });
+      throw new Error("Une erreur s'est produite");
+    }
 
     return await this.db.save(newTag);
   }
