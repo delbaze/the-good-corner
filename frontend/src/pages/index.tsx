@@ -8,4 +8,4 @@ export default function Home() {
     </>
   );
 }
-// Home.title = "Accueil";
+Home.title = "Accueil";

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Logo from "../../common/Logo";
 import SearchBar from "./SearchBar";
-
+import styles from "@/styles/components/layout-elements/topbar/Topbar.module.css";
 function Topbar() {
   return (
-    <nav>
+    <nav className={styles.topbar}>
       <div>
         <Link href="/">
           <Logo />

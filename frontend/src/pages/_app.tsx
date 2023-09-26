@@ -2,14 +2,14 @@
  *                           Premiere maniere de faire une layout
  *========================================================================**/
 import Layout1 from "@/components/Layout1";
-import "@/styles/globals.css";
+// import "@/styles/globals.css";
 import { NextComponentType, NextPageContext } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
 interface ComponentWithTitle extends AppProps {
   Component: NextComponentType<NextPageContext, any, any> & {
-    title: string
+    title?: string
   };
 }
 export default function App({ Component, pageProps }: ComponentWithTitle) {
