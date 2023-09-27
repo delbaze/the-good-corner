@@ -1,0 +1,25 @@
+.card {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  height: 8rem;
+  padding: 0.5rem;
+  width: 11rem;
+}
+.imageAd {
+  height: 5rem;
+  width: 5rem;
+  object-fit: cover;
+}
+.bottomCard {
+  display: flex;
+}
+.adCardPrice {
+  flex: 0.5;
+}
+.adCardButton {
+  flex: 0.5;
+}
+.imageBloc {
+  align-self: center;
+}
