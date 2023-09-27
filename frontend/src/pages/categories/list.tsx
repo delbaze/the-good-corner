@@ -17,7 +17,7 @@ function Categories() {
   }, []);
   return (
     <div>
-      Liste des catégories
+      <h1>Liste des catégories</h1>
       <div className={styles.cardBloc}>
         {categories.map((c) => (
           <Card key={c.id} id={c.id} name={c.name} />
