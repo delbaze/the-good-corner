@@ -7,7 +7,7 @@ interface ILogo {
 /**======================
  *    On prévoit une width et une height par défaut si on n'envoie rien dans les props
  *========================**/
-function Logo({ width = 30, height = 30 }: ILogo) {
+function Logo({ width = 50, height = 50 }: ILogo) {
   return (
     <Image
       src="/logo.svg"

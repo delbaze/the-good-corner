@@ -5,15 +5,15 @@ import styles from "@/styles/components/layout-elements/topbar/Topbar.module.css
 function Topbar() {
   return (
     <nav className={styles.topbar}>
-      <div>
+      <div className={styles.logoBloc}>
         <Link href="/">
           <Logo />
         </Link>
       </div>
-      <div>
+      <div className={styles.inputBloc}>
         <SearchBar />
       </div>
-      <Link href={"/ads/create"}>Ajouter une annonce</Link>
+      <Link href={"/ads/create"} className={styles.addAdButton}>Ajouter une annonce</Link>
     </nav>
   );
 }

@@ -1,0 +1,18 @@
+.cardBloc {
+  display: flex;
+  flex-flow: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  padding:1rem;
+}
+
+.cardBloc > a {
+    text-decoration: none;
+    color: #384a68
+}
+.imageBloc{
+  display:flex;
+  flex-flow: wrap;
+  gap: 0.5rem;
+  padding: 2rem;
+}

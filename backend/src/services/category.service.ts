@@ -24,5 +24,7 @@ export default class CategoryService {
     return await this.db.save(newCategory);
   }
 
-  find() {}
+  async find(id: number) {
+    return await this.db.findOneBy({ id });
+  }
 }

@@ -1,19 +1,43 @@
-import React from "react";
+import Card from "@/components/categories/Card";
+import { Category } from "@/types/categories";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import styles from "@/styles/pages/categories/list/Categories.module.css";
 
 function Categories() {
-  return <div>Liste des catégories</div>;
-}
-
-
-
-Categories.getLayout = function getLayout(page: any) {
+// function Categories({ data }: { data: Category[] }) {
+  //?  Methode avec le rendu côté serveur
+  const [categories, setCategories] = useState<Category[]>([]);
+  /**======================
+   *    methode avec le rendu côté client
+   *========================**/
+  useEffect(() => {
+    // fetch("http://localhost:4000/categories/list")
+    //   .then((response) => response.json())
+    //   .then((data) => setCategories(data));
+    axios
+      .get<Category[]>("http://localhost:4000/categories/list")
+      .then(({ data }) => setCategories(data));
+  }, []);
   return (
     <div>
-      <h1>Liste</h1>
-      <nav>Navbar</nav>
-      {page}
-      <footer>Footer</footer>
+      <h1>Liste des catégories</h1>
+      <div className={styles.cardBloc}>
+        {categories.map((c) => (
+          <Card key={c.id} id={c.id} name={c.name} />
+        ))}
+      </div>
     </div>
   );
-};
+}
+
+/**========================================================================
+ *                           Méthode avec le rendu côté serveur
+ *========================================================================**/
+// export const getServerSideProps = async () => {
+//   const { data } = await axios.get<Category[]>(
+//     "http://localhost:4000/categories/list"
+//   );
+//   return { props: { data, maValeur: "toto" } };
+// };
 export default Categories;

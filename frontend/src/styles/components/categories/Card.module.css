@@ -1,0 +1,14 @@
+.card {
+    display: flex;
+    border: 1px solid black;
+    height: 6rem;
+    width: 6rem;
+    align-items: center;
+    justify-content: center;
+}
+.card:hover{
+    background-color: #e8e8e8;
+}
+.cardText{
+    text-align: center;
+}

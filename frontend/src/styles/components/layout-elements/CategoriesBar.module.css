@@ -1,0 +1,16 @@
+.categoriesBloc {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 1rem;
+  padding:0.4rem;
+}
+.linkCategoriesBar {
+  color: midnightblue;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.active{
+  color: deepskyblue;
+  font-weight: bold
+}
