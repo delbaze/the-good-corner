@@ -2,6 +2,8 @@ import { Router, Request, Response } from "express";
 import { Ad } from "../entities/ad.entity";
 import { In } from "typeorm";
 import { validate } from "class-validator";
+import AdsService from "../services/ads.service";
+import CategoryService from "../services/category.service";
 const router = Router();
 
 router.get("/list", async (req: Request, res: Response) => {
@@ -21,6 +23,21 @@ router.get("/list", async (req: Request, res: Response) => {
         },
       },
     });
+    res.send(ads);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+});
+router.get("/listbycategory/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const category = await new CategoryService().find(+id);
+  if (!category) {
+    throw new Error("La catégory n'existe pas");
+  }
+  try {
+    const ads = await new AdsService().listByCategory(+id);
     res.send(ads);
   } catch (err) {
     console.log(err);
