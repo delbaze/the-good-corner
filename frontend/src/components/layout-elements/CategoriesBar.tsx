@@ -2,10 +2,8 @@ import Link from "next/link";
 
 import styles from "@/styles/components/layout-elements/CategoriesBar.module.css";
 import ActiveLink from "../common/ActiveLink";
-interface Category {
-  id: number;
-  name: string;
-}
+import { Category } from "@/types/categories";
+
 const data: Category[] = [
   {
     id: 1,
@@ -37,6 +35,7 @@ function CategoriesBar() {
           {category.name}
         </ActiveLink>
       ))}
+      <Link href="/categories/list">Voir plus...</Link>
     </div>
   );
 }
