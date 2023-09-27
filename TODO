@@ -1,0 +1,2 @@
+☐ Ajouter des données à la main dans la base de données => plusieurs annonces pour une catégorie
+☐ Récupération des annonces d'une catégorie en particulier sur la page http://localhost:3000/categories/view/[id]

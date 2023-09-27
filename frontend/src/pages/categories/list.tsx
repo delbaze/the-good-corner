@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";
 
 function Categories() {
-  // function Categories({data}: {data: Category[]}) { //?  Methode avec le rendu côté serveur
+// function Categories({ data }: { data: Category[] }) {
+  //?  Methode avec le rendu côté serveur
   const [categories, setCategories] = useState<Category[]>([]);
   /**======================
    *    methode avec le rendu côté client
@@ -14,7 +15,6 @@ function Categories() {
     // fetch("http://localhost:4000/categories/list")
     //   .then((response) => response.json())
     //   .then((data) => setCategories(data));
-
     axios
       .get<Category[]>("http://localhost:4000/categories/list")
       .then(({ data }) => setCategories(data));
@@ -38,6 +38,6 @@ function Categories() {
 //   const { data } = await axios.get<Category[]>(
 //     "http://localhost:4000/categories/list"
 //   );
-//   return {props: {data}};
+//   return { props: { data, maValeur: "toto" } };
 // };
 export default Categories;
