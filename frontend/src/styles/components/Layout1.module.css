@@ -1,0 +1,7 @@
+.mainBloc {
+    display: flex;
+    flex-direction: column;
+}
+.headerPage {
+    flex: 0.4
+}

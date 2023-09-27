@@ -1,9 +1,10 @@
 .topbar {
-  background-color: rgb(235, 235, 235);
+  /* background-color: rgb(235, 235, 235); */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.2rem;
+  gap: 3.5rem;
 }
 
 .addAdButton {
@@ -33,6 +34,7 @@
   touch-action: manipulation;
   vertical-align: baseline;
   width: auto;
+  flex: 0.2;
 }
 
 .addAdButton:hover,
@@ -52,4 +54,11 @@
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
+}
+.logoBloc {
+  flex: 0.2;
+}
+.inputBloc {
+  flex: 0.6;
+  
 }

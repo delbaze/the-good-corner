@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import styles from "@/styles/components/layout-elements/CategoriesBar.module.css"
+import styles from "@/styles/components/layout-elements/CategoriesBar.module.css";
+import ActiveLink from "../common/ActiveLink";
 interface Category {
   id: number;
   name: string;
@@ -27,7 +28,14 @@ function CategoriesBar() {
   return (
     <div className={styles.categoriesBloc}>
       {data.map((category) => (
-        <Link key={category.id} href={`/categories/view/${category.id}`}>{category.name}</Link>
+        <ActiveLink
+          key={category.id}
+          href={`/categories/view/${category.id}`}
+          className={styles.linkCategoriesBar}
+          activeClassName={styles.active}
+        >
+          {category.name}
+        </ActiveLink>
       ))}
     </div>
   );

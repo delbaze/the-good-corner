@@ -47,3 +47,6 @@ export default function App({ Component, pageProps }: ComponentWithTitle) {
 
 //   // return <Component {...pageProps} />
 // }
+
+// // Disabling SSR
+// export default dynamic(() => Promise.resolve(App), { ssr: false });
