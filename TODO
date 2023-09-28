@@ -1,7 +1,7 @@
 ✔ Ajouter des données à la main dans la base de données => plusieurs annonces pour une catégorie @done(23-09-27 15:22)
 ✔ Récupération des annonces d'une catégorie en particulier sur la page http://localhost:3000/categories/view/[id] @done(23-09-27 15:39)
 ✔ Afficher les annonces (créer une carte dédiée aux annonces) et boucler sur les données @done(23-09-28 10:48)
-☐ Récupérer les catégories depuis la page du formulaire d'ajout d'annonces
-☐ Envoyer en POST avec axios les données au backend
-☐ Si tout est ok, rediriger vers les annonces de la catégorie en question
-☐ Modifier la récupération des annonces en les triant avec les plus récent au début de la liste
+✔ Récupérer les catégories depuis la page du formulaire d'ajout d'annonces @done(23-09-28 15:46)
+✔ Envoyer en POST avec axios les données au backend @done(23-09-28 15:46)
+✔ Si tout est ok, rediriger vers les annonces de la catégorie en question @done(23-09-28 15:46)
+☐ Modifier la récupération des annonces en les triant avec les plus récents au début de la liste

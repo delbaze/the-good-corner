@@ -49,7 +49,9 @@ router.get("/listbycategory/:id", async (req: Request, res: Response) => {
 router.post("/create", async (req: Request, res: Response) => {
   try {
     const data: IAdForm = req.body;
-    const newAd = await new AdsService().create({ ...data });
+    // const { price, ...data }: IAdForm = req.body;
+    // const newAd = await new AdsService().create({ ...data, price: +price });
+    const newAd = await new AdsService().create(data);
     res.send(newAd);
   } catch (err) {
     console.log(err);

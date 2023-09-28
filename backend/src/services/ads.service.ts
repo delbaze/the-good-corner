@@ -47,7 +47,7 @@ export default class AdsService {
       throw new Error("il y a eu une erreur");
     }
     const { category, ...rest } = { ...newAd };
-    const categoryToLink = await new CategoryService().find(category.id);
+    const categoryToLink = await new CategoryService().find(category?.id);
     if (!categoryToLink) {
       throw new Error("La catégorie n'existe pas!");
     }
