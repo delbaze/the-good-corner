@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 25rem;
+    flex:1;
+    padding:2rem
+}
+.formBloc{
+    display:flex;
+    justify-content: center;
+}
+.inputForm {
+    padding: 0.5rem;
+    margin: 0.2rem;
+}

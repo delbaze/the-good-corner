@@ -5,7 +5,6 @@ import { ICreateCategory } from "../types/category";
 const router = Router();
 
 router.get("/list", async (_, res: Response) => {
-  console.log("je suis dans categories");
   try {
     const categories = await new CategoryService().list();
     res.send(categories);
