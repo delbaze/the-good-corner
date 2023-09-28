@@ -14,6 +14,11 @@ function Form() {
       .then(({ data }) => setCategories(data));
   }, []);
 
+  useEffect(() => {
+    console.log(formulaireData);
+  },[formulaireData])
+
+  
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormulaireData({ ...formulaireData, category: { id: +e.target.value } });
   };
@@ -28,7 +33,7 @@ function Form() {
       <select className={styles.inputForm} onChange={handleChange}>
         <option>Choisissez une catégorie</option>
         {categories.map((c) => (
-          <option value={c.id}>{c.name}</option>
+          <option key={c.id} value={c.id}>{c.name}</option>
         ))}
       </select>
       {/**catégories */}
