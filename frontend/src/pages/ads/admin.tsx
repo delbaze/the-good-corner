@@ -1,11 +1,15 @@
-import axiosInstance from "@/lib/axiosInstance";
-import { Category } from "@/types/categories";
-import { useEffect, useState } from "react";
-import styles from "@/styles/pages/ads/Form.module.css";
-import { Ad } from "@/types/ads";
+import axiosInstance from '@/lib/axiosInstance';
+import Link from 'next/link';
+import styles from '@/styles/pages/ads/Form.module.css';
+import { Ad } from '@/types/ads';
+import { Category } from '@/types/categories';
+import { formatAmount } from '@/lib/utilities';
+import { useEffect, useState } from 'react';
 
 function AdminAds() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [ads, setAds] = useState<Ad[]>([]);
+
   const [filter, setFilter] = useState<number>();
   useEffect(() => {
     axiosInstance
@@ -25,7 +29,7 @@ function AdminAds() {
       console.log("ALLER CHERCHER LES ANNONCES DE " + filter);
       axiosInstance
         .get<Ad[]>(`/ads/listByCategory/${filter}`)
-        .then(({ data }) => console.log(data))
+        .then(({ data }) => setAds(data))
         .catch((error) => console.log(error));
     }
   }, [filter]);
@@ -53,7 +57,34 @@ function AdminAds() {
           </>
         )}
       </div>
-      <div>Liste des annonces:</div>
+      <div>
+        Liste des annonces:
+        {ads.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Titre</th>
+                <th>Prix</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ads.map((ad) => (
+                <tr>
+                  <td>{ad.title}</td>
+                  <td>{formatAmount(ad.price)}</td>
+                  <td>
+                    <Link href={`/ads/edit/${ad.id}`}>Editer</Link>
+                    <Link href={`/ads/delete/${ad.id}`}>Supprimer</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div>Aucune annonce dans cette catégorie</div>
+        )}
+      </div>
     </div>
   );
 }

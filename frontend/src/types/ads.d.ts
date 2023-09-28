@@ -38,3 +38,7 @@ export interface IAdForm extends Omit<Ad, "createdAt" | "updatedAt" | "tags"> {
   id?: number | undefined; // on prévoir l'édition => surcharge de "id", lors de la création l'id n'est pas défini
   category: Omit<Category, "name">;
 }
+
+export interface FormEditOrCreate {
+  initialData?: Ad;
+}

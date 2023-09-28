@@ -1,10 +1,10 @@
 import axiosInstance from "@/lib/axiosInstance";
 import styles from "@/styles/pages/ads/Form.module.css";
-import { IAdForm } from "@/types/ads";
+import { Ad, IAdForm, FormEditOrCreate } from "@/types/ads";
 import { Category } from "@/types/categories";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-function Form() {
+function Form({ initialData }: FormEditOrCreate) {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -14,6 +14,10 @@ function Form() {
     axiosInstance
       .get<Category[]>("/categories/list", {})
       .then(({ data }) => setCategories(data));
+
+    if (initialData) {
+      setFormulaireData(initialData);
+    }
   }, []);
 
   useEffect(() => {
@@ -44,14 +48,23 @@ function Form() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("j'ai intercepté le comportement normal du formulaire");
-    axiosInstance
-      .post("/ads/create", formulaireData)
-      .then(({ data }) => {
-        //si tout se passe bien, rediriger vers la catégorie
-        router.push(`/categories/view/${data.category?.id}`);
-      })
-      .catch((err) => console.log(err));
+    if (!initialData) {
+      axiosInstance
+        .post("/ads/create", formulaireData)
+        .then(({ data }) => {
+          //si tout se passe bien, rediriger vers la catégorie
+          router.push(`/categories/view/${data.category?.id}`);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      //faire l'update
+      axiosInstance
+        .patch(`/ads/update/${initialData.id}`, formulaireData)
+        .then(({ data }) => {
+          router.push(`/categories/view/${data.category?.id}`);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -61,18 +74,21 @@ function Form() {
         placeholder="titre"
         className={styles.inputForm}
         onChange={handleChange}
+        value={formulaireData.title}
       />
       <input
         name="description"
         placeholder="description"
         className={styles.inputForm}
         onChange={handleChange}
+        value={formulaireData.description}
       />
       <input
         name="owner"
         placeholder="owner"
         className={styles.inputForm}
         onChange={handleChange}
+        value={formulaireData.owner}
       />
       <input
         name="price"
@@ -82,23 +98,27 @@ function Form() {
         type="number"
         step=".01"
         pattern="[0-9]*"
+        value={formulaireData.price}
       />
       <input
         name="location"
         placeholder="location"
         className={styles.inputForm}
         onChange={handleChange}
+        value={formulaireData.location}
       />
       <input
         name="picture"
         placeholder="picture"
         className={styles.inputForm}
         onChange={handleChange}
+        value={formulaireData.picture}
       />
       <select
         className={styles.inputForm}
         onChange={handleChange}
         name="category"
+        value={formulaireData.category?.id}
       >
         <option>Choisissez une catégorie</option>
         {categories.map((c) => (
@@ -107,7 +127,7 @@ function Form() {
           </option>
         ))}
       </select>
-      <button>Ajouter l'annonce</button>
+      <button>{initialData ? "Editer l'annonce" : "Ajouter l'annonce"}</button>
     </form>
   );
 }
