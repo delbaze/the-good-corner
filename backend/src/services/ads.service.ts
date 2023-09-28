@@ -28,7 +28,10 @@ export default class AdsService {
   }
 
   async listByCategory(id: number) {
-    return await this.db.find({ where: { category: { id } } });
+    return await this.db.find({
+      where: { category: { id } },
+      order: { createdAt: "DESC" },
+    });
   }
 
   async find(id: number) {

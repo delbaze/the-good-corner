@@ -4,4 +4,8 @@
 ✔ Récupérer les catégories depuis la page du formulaire d'ajout d'annonces @done(23-09-28 15:46)
 ✔ Envoyer en POST avec axios les données au backend @done(23-09-28 15:46)
 ✔ Si tout est ok, rediriger vers les annonces de la catégorie en question @done(23-09-28 15:46)
-☐ Modifier la récupération des annonces en les triant avec les plus récents au début de la liste
+✔ Modifier la récupération des annonces en les triant avec les plus récents au début de la liste @done(23-09-28 16:30)
+☐ Créer la page d'administration des annonces (tableau d'annonces, avec filtre par catégorie)
+☐ Prévoir un bouton éditer et un bouton supprimer
+☐ Au clic sur éditer, on arrive sur le formulaire d'annonce pré rempli
+☐ au submit, on est dans l'édition et non l'ajout
