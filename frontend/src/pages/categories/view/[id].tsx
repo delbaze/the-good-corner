@@ -1,5 +1,6 @@
 import { Ad } from "@/types/ads";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/router";
 import AdCard from "@/components/ads/Card";
 import { useEffect, useState } from "react";
@@ -19,12 +20,13 @@ function ViewCategory() {
   //   }
   //   //stocker dans une variable d'état
   // };
+  
   useEffect(() => {
     // getAds();
     if (router.query.id) {
-      axios
+      axiosInstance
         .get<Ad[]>(
-          `http://localhost:4000/ads/listbycategory/${router.query.id}`
+          `/ads/listbycategory/${router.query.id}`
         )
         .then(({ data }) => {
           console.log(data);

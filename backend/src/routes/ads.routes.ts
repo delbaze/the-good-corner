@@ -6,6 +6,19 @@ import AdsService from "../services/ads.service";
 import CategoryService from "../services/category.service";
 const router = Router();
 
+router.get("/find/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const ad = await new AdsService().find(+id);
+    if (!ad) {
+      throw new Error("L'annonce n'existe pas");
+    }
+    res.json( ad );
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+});
 router.get("/list", async (req: Request, res: Response) => {
   const { tagIds } = req.query;
   try {

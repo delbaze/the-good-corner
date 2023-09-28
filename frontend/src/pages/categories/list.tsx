@@ -3,9 +3,9 @@ import { Category } from "@/types/categories";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";
-
+import axiosInstance from "@/lib/axiosInstance";
 function Categories() {
-// function Categories({ data }: { data: Category[] }) {
+  // function Categories({ data }: { data: Category[] }) {
   //?  Methode avec le rendu côté serveur
   const [categories, setCategories] = useState<Category[]>([]);
   /**======================
@@ -15,8 +15,9 @@ function Categories() {
     // fetch("http://localhost:4000/categories/list")
     //   .then((response) => response.json())
     //   .then((data) => setCategories(data));
-    axios
-      .get<Category[]>("http://localhost:4000/categories/list")
+    axiosInstance
+      .get<Category[]>(`/categories/list`)
+      // .get<Category[]>("http://localhost:4000/categories/list")
       .then(({ data }) => setCategories(data));
   }, []);
   return (

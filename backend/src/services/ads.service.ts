@@ -10,4 +10,8 @@ export default class AdsService {
   async listByCategory(id: number) {
     return await this.db.find({ where: { category: { id } } });
   }
+
+  async find(id: number) {
+    return await this.db.findOneBy({ id });
+  }
 }
