@@ -32,7 +32,7 @@ router.get("/list", async (req: Request, res: Response) => {
 });
 router.get("/listbycategory/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-
+console.log("ID====>", id)
   const category = await new CategoryService().find(+id);
   if (!category) {
     throw new Error("La catégory n'existe pas");
