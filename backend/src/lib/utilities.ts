@@ -27,13 +27,10 @@ export function aggregateErrors(
       return {};
     }
   });
-  console.log("ERROR FORMATED =====>", errorsFormated)
   return errorsFormated;
 }
 
 export function formatedErrors(err: AggregateError | TypeORMError) {
-  console.log("ERROR ====>", err);
-  console.log("ERROR NAME ===>", err.name);
   const e: any = {
     errors: [],
   };

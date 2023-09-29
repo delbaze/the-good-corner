@@ -16,6 +16,9 @@ function Form({ initialData }: FormEditOrCreate) {
   const [formulaireData, setFormulaireData] = useState<IAdForm>({} as IAdForm);
 
   useEffect(() => {
+    console.log("errors", errors);
+  }, [errors]);
+  useEffect(() => {
     axiosInstance
       .get<Category[]>("/categories/list", {})
       .then(({ data }) => setCategories(data))
@@ -54,8 +57,20 @@ function Form({ initialData }: FormEditOrCreate) {
     setFormulaireData({ ...formulaireData, [e.target.name]: value }); //{...formulaireData, title: valeur}
   };
 
+  const getError = (field: string) => {
+    let errorText = "";
+    if (errors.length) {
+      let error = errors.find((e) => e.field === field);
+      if (error) {
+        errorText = error.message;
+      }
+    }
+
+    return errorText;
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors([]);
     if (!initialData) {
       axiosInstance
         .post("/ads/create", formulaireData)
@@ -63,7 +78,10 @@ function Form({ initialData }: FormEditOrCreate) {
           //si tout se passe bien, rediriger vers la catégorie
           router.push(`/categories/view/${data.category?.id}`);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setErrors(err.response.data?.errors);
+        });
     } else {
       //faire l'update
       axiosInstance
@@ -71,7 +89,10 @@ function Form({ initialData }: FormEditOrCreate) {
         .then(({ data }) => {
           router.push(`/categories/view/${data.category?.id}`);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setErrors(err.response.data?.errors);
+        });
     }
   };
 
@@ -84,7 +105,7 @@ function Form({ initialData }: FormEditOrCreate) {
         onChange={handleChange}
         value={formulaireData.title}
       />
-      <span>{/** afficher l'erreur */}</span>
+      <span>{getError("title")}</span>
       <input
         name="description"
         placeholder="description"
@@ -109,6 +130,8 @@ function Form({ initialData }: FormEditOrCreate) {
         pattern="[0-9]*"
         value={formulaireData.price}
       />
+      <span>{getError("price")}</span>
+
       <input
         name="location"
         placeholder="location"
