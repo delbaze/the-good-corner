@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ComicScrip/the-good-corner#readme",
   "dependencies": {
+    "aggregate-error": "^4.0.1",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",

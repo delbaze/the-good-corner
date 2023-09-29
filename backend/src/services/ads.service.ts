@@ -4,6 +4,8 @@ import datasource from "../db";
 import { IAdForm } from "../types/ad";
 import { validate } from "class-validator";
 import CategoryService from "./category.service";
+import { aggregateErrors } from "../lib/utilities";
+// import AggregateError from "aggregate-error";
 export default class AdsService {
   db: Repository<Ad>;
   constructor() {
@@ -35,10 +37,21 @@ export default class AdsService {
   }
 
   async find(id: number) {
-    return await this.db.findOne({
+    const ad = await this.db.findOne({
       where: { id },
       relations: { category: true },
     });
+
+    if (!ad) {
+      // throw new Error("L'annonce n'existe pas");
+      throw new AggregateError([
+        {
+          field: null,
+          message: "L'annonce n'existe pas",
+        },
+      ]);
+    }
+    return ad;
   }
 
   async create(data: IAdForm) {
@@ -46,8 +59,7 @@ export default class AdsService {
     const errors = await validate(newAd);
 
     if (errors.length !== 0) {
-      console.log(errors);
-      throw new Error("il y a eu une erreur");
+      throw new AggregateError(aggregateErrors(errors));
     }
     const { category, ...rest } = { ...newAd };
     const categoryToLink = await new CategoryService().find(category?.id);

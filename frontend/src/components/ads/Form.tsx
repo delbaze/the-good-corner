@@ -13,7 +13,10 @@ function Form({ initialData }: FormEditOrCreate) {
   useEffect(() => {
     axiosInstance
       .get<Category[]>("/categories/list", {})
-      .then(({ data }) => setCategories(data));
+      .then(({ data }) => setCategories(data))
+      .catch((err) => {
+        console.log(err);
+      });
 
     if (initialData) {
       setFormulaireData(initialData);

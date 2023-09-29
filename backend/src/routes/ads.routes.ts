@@ -5,19 +5,19 @@ import { validate } from "class-validator";
 import AdsService from "../services/ads.service";
 import CategoryService from "../services/category.service";
 import { IAdForm } from "../types/ad";
+import { formatedErrors } from "../lib/utilities";
 const router = Router();
 
 router.get("/find/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const ad = await new AdsService().find(+id);
-    if (!ad) {
-      throw new Error("L'annonce n'existe pas");
-    }
+
     res.json(ad);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
-    res.sendStatus(500);
+    // res.sendStatus(500);
+    res.status(500).json(formatedErrors(err))
   }
 });
 router.get("/list", async (req: Request, res: Response) => {
@@ -53,9 +53,9 @@ router.post("/create", async (req: Request, res: Response) => {
     // const newAd = await new AdsService().create({ ...data, price: +price });
     const newAd = await new AdsService().create(data);
     res.send(newAd);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
-    res.sendStatus(500);
+    res.status(500).json(formatedErrors(err));
   }
 });
 
