@@ -4,10 +4,15 @@ import { Ad, IAdForm, FormEditOrCreate } from "@/types/ads";
 import { Category } from "@/types/categories";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+interface IError {
+  field: string | null;
+  message: string;
+}
+
 function Form({ initialData }: FormEditOrCreate) {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const [errors, setErrors] = useState<IError[]>([] as IError[]);
   const [formulaireData, setFormulaireData] = useState<IAdForm>({} as IAdForm);
 
   useEffect(() => {
@@ -79,6 +84,7 @@ function Form({ initialData }: FormEditOrCreate) {
         onChange={handleChange}
         value={formulaireData.title}
       />
+      <span>{/** afficher l'erreur */}</span>
       <input
         name="description"
         placeholder="description"

@@ -28,7 +28,7 @@ export function aggregateErrors(
     }
   });
   console.log("ERROR FORMATED =====>", errorsFormated)
-  return new AggregateError(errorsFormated);
+  return errorsFormated;
 }
 
 export function formatedErrors(err: AggregateError | TypeORMError) {
