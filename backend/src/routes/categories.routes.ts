@@ -4,6 +4,7 @@ import CategoryService from "../services/category.service";
 import { ICreateCategory } from "../types/category";
 const router = Router();
 
+//? Route traitée dans le résolver
 router.get("/list", async (_, res: Response) => {
   console.log("je suis dans categories");
   try {
@@ -14,6 +15,8 @@ router.get("/list", async (_, res: Response) => {
     res.sendStatus(500);
   }
 });
+
+//? Route traitée dans le résolver
 
 router.post("/create", async (req: Request, res: Response) => {
   try {
@@ -26,6 +29,8 @@ router.post("/create", async (req: Request, res: Response) => {
   }
 });
 
+
+//? Route traitée dans le résolver
 router.get("/find/:id", async (_, res: Response) => {});
 
 export default router;

@@ -1,0 +1,37 @@
+type Ad {
+  id: ID
+  title: String
+  description: String
+  owner: String
+  price: Float
+  location: String
+  picture: String
+  createdAt: String
+  updatedAt: String
+  category: Category
+  # tags: [Tag]
+}
+type Query {
+  listAds: [Ad]
+  listAdsByCategory(id: ID): [Ad]
+  findAdById(id: ID): Ad
+}
+
+type Mutation {
+  createAd(data: CreateAdInput): Ad
+  deleteAd(id: ID): Ad
+}
+
+input PartialCategoryInput {
+  id: ID
+}
+input CreateAdInput {
+  id: ID
+  title: String!
+  description: String!
+  owner: String!
+  price: Float!
+  location: String!
+  picture: String!
+  category: PartialCategoryInput
+}

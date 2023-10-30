@@ -1,35 +1,26 @@
-import "reflect-metadata";
-import express from "express";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import typeDefs from "./typedefs";
+import resolvers from "./resolvers";
 import db from "./db";
 
-import categoryRouter from "./routes/categories.routes";
-import tagRouter from "./routes/tags.routes";
-import adRouter from "./routes/ads.routes";
-import cors from "cors";
 
-const app = express();
-const port = 4000;
+const server = new ApolloServer<{}>({
+  typeDefs,
+  resolvers,
 
-/**========================================================================
- *                           MIDDLEWARE GLOBAUX
- *========================================================================**/
-
-app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000" })); //un seul
-// app.use(cors({ origin: ["http://localhost:3000", "", ""] })); //plusieurs
-// app.use(cors({ origin: "*" }));//tout le monde
-
-/**========================================================================
- *                           Routes
- *========================================================================**/
-app.use("/categories", categoryRouter);
-app.use("/tags", tagRouter);
-app.use("/ads", adRouter);
-
-/**========================================================================
- *                           Lancement du serveur
- *========================================================================**/
-app.listen(port, async () => {
-  await db.initialize();
-  console.log(`Server running on http://localhost:${port}`);
 });
+
+async function main() {
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+    context: async ({ req, res }) => {
+      return {};
+    },
+  });
+
+  await db.initialize();
+
+  console.log(`🚀  Server ready at: ${url}`);
+}
+main();

@@ -4,25 +4,26 @@ import { In } from "typeorm";
 import { validate } from "class-validator";
 import AdsService from "../services/ads.service";
 import CategoryService from "../services/category.service";
+import { IAdForm } from "../types/ad";
+import { formatedErrors } from "../lib/utilities";
 const router = Router();
 
+router.get("/find/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const ad = await new AdsService().find(+id);
+
+    res.json(ad);
+  } catch (err: any) {
+    console.log(err);
+    // res.sendStatus(500);
+    res.status(500).json(formatedErrors(err))
+  }
+});
 router.get("/list", async (req: Request, res: Response) => {
   const { tagIds } = req.query;
   try {
-    const ads = await Ad.find({
-      relations: {
-        category: true,
-        tags: true,
-      },
-      where: {
-        tags: {
-          id:
-            typeof tagIds === "string" && tagIds.length > 0
-              ? In(tagIds.split(",").map((t) => parseInt(t, 10)))
-              : undefined,
-        },
-      },
-    });
+    const ads = await new AdsService().list(tagIds ? (tagIds as string) : "");
     res.send(ads);
   } catch (err) {
     console.log(err);
@@ -31,7 +32,7 @@ router.get("/list", async (req: Request, res: Response) => {
 });
 router.get("/listbycategory/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-
+console.log("ID====>", id)
   const category = await new CategoryService().find(+id);
   if (!category) {
     throw new Error("La catégory n'existe pas");
@@ -47,42 +48,34 @@ router.get("/listbycategory/:id", async (req: Request, res: Response) => {
 
 router.post("/create", async (req: Request, res: Response) => {
   try {
-    const newAd = Ad.create(req.body);
-    const errors = await validate(newAd);
-    if (errors.length !== 0) return res.status(422).send({ errors });
-    const newAdWithId = await newAd.save();
-    res.send(newAdWithId);
-  } catch (err) {
+    const data: IAdForm = req.body;
+    // const { price, ...data }: IAdForm = req.body;
+    // const newAd = await new AdsService().create({ ...data, price: +price });
+    const newAd = await new AdsService().create(data);
+    res.send(newAd);
+  } catch (err: any) {
     console.log(err);
-    res.sendStatus(500);
+    res.status(500).json(formatedErrors(err));
   }
 });
 
 router.delete("/delete/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const adToDelete = await Ad.findOneBy({ id: parseInt(req.params.id, 10) });
-    if (!adToDelete) return res.sendStatus(404);
-    await adToDelete.remove();
-    res.sendStatus(204);
+    const adToDelete = await new AdsService().delete(+id);
+    res.json(adToDelete);
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
   }
 });
-/**========================================================================
- *                           liste des routes ...
- *========================================================================**/
 
 router.patch("/update/:id", async (req: Request, res: Response) => {
   try {
-    const adToUpdate = await Ad.findOneBy({ id: parseInt(req.params.id, 10) });
-    if (!adToUpdate) return res.sendStatus(404);
-
-    await Ad.merge(adToUpdate, req.body);
-    const errors = await validate(adToUpdate);
-    if (errors.length !== 0) return res.status(422).send({ errors });
-
-    res.send(await adToUpdate.save());
+    const data: IAdForm = req.body;
+    const { id } = req.params;
+    const adToUpdate = await new AdsService().update(+id, data);
+    res.send(adToUpdate);
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
