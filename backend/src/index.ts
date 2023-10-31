@@ -8,7 +8,6 @@ import db from "./db";
 const server = new ApolloServer<{}>({
   typeDefs,
   resolvers,
-
 });
 
 async function main() {
