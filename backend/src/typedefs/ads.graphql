@@ -1,13 +1,13 @@
 #Query et Mutation
 type Query {
   listAds: [Ad]
-  listAdsByCategory(id: ID): [Ad]
-  findAdById(id: ID): Ad
+  listAdsByCategory(id: ID!): [Ad]
+  findAdById(id: ID!): Ad
 }
 
 type Mutation {
   createAd(data: CreateAdInput): Ad
-  deleteAd(id: ID): Ad
+  deleteAd(id: ID!): Ad
   updateAd(data: UpdateAdInput): Ad
 }
 

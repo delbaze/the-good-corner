@@ -5,6 +5,7 @@ import { IAdForm } from "../types/ad";
 import { validate } from "class-validator";
 import CategoryService from "./category.service";
 import { aggregateErrors } from "../lib/utilities";
+import { CreateAdInput, UpdateAdInput } from "../types/resolvers-types";
 // import AggregateError from "aggregate-error";
 export default class AdsService {
   db: Repository<Ad>;
@@ -54,8 +55,8 @@ export default class AdsService {
     return ad;
   }
 
-  async create(data: IAdForm) {
-    const newAd = this.db.create(data);
+  async create(data: CreateAdInput) {
+    const newAd = this.db.create(data as Partial<Ad>);
     const errors = await validate(newAd);
 
     if (errors.length !== 0) {
@@ -77,12 +78,12 @@ export default class AdsService {
     return await this.db.remove(adToDelete);
   }
 
-  async update(id: number, data: IAdForm) {
+  async update(id: number, data: Omit<UpdateAdInput, "id">) {
     const adToUpdate = await this.find(id);
     if (!adToUpdate) {
       throw new Error("L'annonce n'existe pas!");
     }
-    const adToSave = this.db.merge(adToUpdate, data);
+    const adToSave = this.db.merge(adToUpdate, data as Partial<Ad>);
     const errors = await validate(adToSave);
     if (errors.length !== 0) {
       console.log(errors);

@@ -1,5 +1,5 @@
 import CategoryService from "../services/category.service";
-import { ICreateCategory } from "../types/category";
+import { CreateCategoryInput, QueryFindCategoryArgs } from "../types/resolvers-types";
 
 export default {
   Query: {
@@ -8,14 +8,13 @@ export default {
       const categories = await new CategoryService().list();
       return categories;
     },
-    findCategory: async (_: any, { id }: { id: string }) => {
-      console.log(id);
+    findCategory: async (_: any, { id }: QueryFindCategoryArgs) => {
       const category = await new CategoryService().find(+id);
       return category;
     },
   },
   Mutation: {
-    createCategory: async (_: any, { data }: { data: ICreateCategory }) => {
+    createCategory: async (_: any, { data }: { data: CreateCategoryInput }) => {
       const newCategory = await new CategoryService().create({ ...data });
       return newCategory;
     },

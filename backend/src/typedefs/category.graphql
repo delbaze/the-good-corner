@@ -1,7 +1,7 @@
 #Query et Mutation
 type Query {
     listCategories: [Category]
-    findCategory(id: ID, toto: String): Category
+    findCategory(id: ID!): Category
 }
 type Mutation {
     createCategory(data: CreateCategoryInput): Category
@@ -17,5 +17,5 @@ type Category {
 
 #Inputs
 input CreateCategoryInput {
-    name: String
+    name: String!
 }
