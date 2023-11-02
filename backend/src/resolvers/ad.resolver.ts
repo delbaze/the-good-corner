@@ -25,7 +25,7 @@ export class AdResolver {
   async findAdById(@Arg("id") id: string) {
     const ad = await new AdsService().find(+id);
     if (!ad) {
-      throw new Error("L'annonce n'existe pas");
+      throw new Error("Attention, l'annonce n'existe pas");
     }
     return ad;
   }

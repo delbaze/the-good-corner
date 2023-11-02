@@ -1,8 +1,8 @@
 import SheetAd from "@/components/ads/SheetAd";
-import axiosInstance from "@/lib/axiosInstance";
-import { Ad } from "@/types/ads";
+import { FIND_AD_BY_ID } from "@/requetes/queries/ads.queries";
+import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface IError {
   field: string | null;
@@ -10,52 +10,25 @@ interface IError {
 }
 function ViewAd() {
   const router = useRouter();
-  const [ad, setAd] = useState<Ad>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [errors, setErrors] = useState<IError[]>([]);
+  const [getAd, { data, error, loading }] = useLazyQuery(FIND_AD_BY_ID);
   useEffect(() => {
     if (router.query.id) {
-      axiosInstance
-        .get<Ad>(`/ads/find/${router.query.id}`)
-        .then(({ data }) => {
-          setAd(data);
-          setLoading(false);
-        })
-        .catch((err: any) => {
-          console.log("ERREUR RECUE ", err.response.data.errors);
-          setErrors(err.response.data?.errors);
-          setLoading(false);
-        });
+      getAd({
+        variables: {
+          findAdById: router.query.id,
+        },
+      });
     }
   }, [router.query.id]);
 
   if (loading) {
     return <div>Chargement en cours</div>;
   }
-
-  if (errors.length) {
-    return (
-      <ul>
-        {errors.map((e, i) => (
-          <li key={i}>{e.message}</li>
-        ))}
-      </ul>
-    );
+  if (error) {
+    return <div>{error.message}</div>;
   }
-  return (
-    <div>
-      {ad ? (
-        <>
-          <SheetAd {...ad} />
-          {/* <div>Titre: {ad?.title}</div>
-          <div>Prix: {ad?.price}</div>
-          <div>Description: {ad?.description}</div> */}
-        </>
-      ) : (
-        <div>L'annonce n'existe pas</div>
-      )}
-    </div>
-  );
+
+  return <div>{<SheetAd {...data?.findAdById} />}</div>;
 }
 
 export default ViewAd;

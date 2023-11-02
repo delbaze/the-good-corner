@@ -62,6 +62,7 @@ export default class AdsService {
     }
     const newAd = this.db.create({ ...data, category: categoryToLink });
     const errors = await validate(newAd);
+    console.log('ERRORS => ', errors);
 
     if (errors.length !== 0) {
       throw new AggregateError(aggregateErrors(errors));

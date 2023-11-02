@@ -1,6 +1,5 @@
 import {
   Entity,
-  BaseEntity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   Column,
@@ -126,6 +125,7 @@ export class CreateAdInput {
   picture: string;
   @Field()
   category: PartialCategoryInput;
+
 }
 
 @InputType()

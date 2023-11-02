@@ -1,3 +1,7 @@
 ✔ Ajouter des données à la main dans la base de données => plusieurs annonces pour une catégorie @done(23-09-27 15:22)
 ✔ Récupération des annonces d'une catégorie en particulier sur la page http://localhost:3000/categories/view/[id] @done(23-09-27 15:39)
-☐ Afficher les annonces (créer une carte dédiée aux annonces) et boucler sur les données
+✔ Afficher les annonces (créer une carte dédiée aux annonces) et boucler sur les données @done(23-11-02 14:06)
+✔ Récupérer la liste des catégories depuis graphql (pour le formulaire) @started(23-11-02 14:08) @done(23-11-02 14:16) @lasted(8m56s)
+✔ Envoi des données à l'api graphql au submit du formulaire @done(23-11-02 15:01)
+☐ Typage!!! codegen
+☐ Gestion erreurs (bonus)

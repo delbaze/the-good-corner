@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useEffect, useState } from "react";
-import { Category } from "@/types/categories";
-import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/router";
 import { errorManager } from "@/lib/utilities";
+import { useQuery, useMutation } from "@apollo/client";
+import { LIST_CATEGORIES } from "@/requetes/queries/categories.queries";
+import { CREATE_AD } from "@/requetes/mutations/ads.mutations";
+
 const schema = yup
   .object({
     title: yup.string(),
@@ -28,7 +29,18 @@ const schema = yup
   .required();
 
 export default function FormReactHook() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { data: dataCategories } = useQuery(LIST_CATEGORIES);
+  const [createAd] = useMutation(CREATE_AD, {
+    onCompleted(data) {
+      console.log("DATA");
+      //si tout se passe bien, rediriger vers la catégorie
+      router.push(`/categories/view/${data?.createAd?.category.id}`);
+    },
+    onError(error, clientOptions) {
+          console.log(JSON.stringify(error));
+    },
+  });
+  // const [categories, setCategories] = useState<Category[]>([]);
   const router = useRouter();
   const {
     register,
@@ -41,34 +53,38 @@ export default function FormReactHook() {
   });
   console.log("errors", errors);
   const onSubmit = (data: any) => {
-    console.log("ON SUBMIT", data);
     const { category, ...formulaireData } = data;
+    createAd({
+      variables: {
+        data: { ...formulaireData, category: { id: category } },
+      },
+    });
 
-    axiosInstance
-      .post("/ads/create", { ...formulaireData, category: { id: category } })
-      .then(({ data }) => {
-        //si tout se passe bien, rediriger vers la catégorie
-        router.push(`/categories/view/${data.category.id}`);
-      })
-      .catch((err) => {
-        console.log(err);
-        errorManager(setError, err)
-        // setErrors(err.response.data?.errors);
-      });
+    // axiosInstance
+    //   .post("/ads/create", { ...formulaireData, category: { id: category } })
+    //   .then(({ data }) => {
+    //     //si tout se passe bien, rediriger vers la catégorie
+    //     router.push(`/categories/view/${data.category.id}`);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     errorManager(setError, err); //! prévoir la gestion des erreurs
+    //     // setErrors(err.response.data?.errors);
+    //   });
   };
 
-  useEffect(() => {
-    axiosInstance
-      .get<Category[]>("/categories/list", {})
-      .then(({ data }) => setCategories(data))
-      .catch((err) => {
-        console.log(err);
-      });
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get<Category[]>("/categories/list", {})
+  //     .then(({ data }) => setCategories(data))
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
 
-    // if (initialData) {
-    //   setFormulaireData(initialData);
-    // }
-  }, []);
+  //   // if (initialData) {
+  //   //   setFormulaireData(initialData);
+  //   // }
+  // }, []);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input {...register("title")} placeholder="Titre" />
@@ -91,7 +107,7 @@ export default function FormReactHook() {
 
       <select {...register("category")}>
         <option>Choisissez une catégorie</option>
-        {categories.map((c) => (
+        {dataCategories?.listCategories.map((c: any) => (
           <option key={c.id} value={c.id}>
             {c.name}
           </option>
