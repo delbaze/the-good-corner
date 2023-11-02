@@ -1,22 +1,27 @@
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import CategoryService from "../services/category.service";
-import { CreateCategoryInput, QueryFindCategoryArgs } from "../types/resolvers-types";
 
-export default {
-  Query: {
-    listCategories: async () => {
-      //toute ma logique de récupération de categories
-      const categories = await new CategoryService().list();
-      return categories;
-    },
-    findCategory: async (_: any, { id }: QueryFindCategoryArgs) => {
-      const category = await new CategoryService().find(+id);
-      return category;
-    },
-  },
-  Mutation: {
-    createCategory: async (_: any, { data }: { data: CreateCategoryInput }) => {
-      const newCategory = await new CategoryService().create({ ...data });
-      return newCategory;
-    },
-  },
-};
+import { Category, CreateCategoryInput } from "../entities/category.entity";
+
+@Resolver(() => Category)
+export default class CategoryResolver {
+  @Query(() => [Category])
+  async listCategories() {
+    const categories = await new CategoryService().list();
+    return categories;
+  }
+
+  @Query(() => Category)
+  // async findCategory(@Args() { id, infos }: Toto) {
+  // console.log("INFOS => ", infos);
+  async findCategory(@Arg("id") id: string) {
+    const category = await new CategoryService().find(+id);
+    return category;
+  }
+
+  @Mutation(() => Category)
+  async createCategory(@Arg("data") data: CreateCategoryInput) {
+    const newCategory = await new CategoryService().create({ ...data });
+    return newCategory;
+  }
+}

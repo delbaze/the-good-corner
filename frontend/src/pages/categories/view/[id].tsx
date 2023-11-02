@@ -4,32 +4,26 @@ import { useRouter } from "next/router";
 import AdCard from "@/components/ads/Card";
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";
+import { useLazyQuery } from "@apollo/client";
+import { LIST_ADS_BY_CATEGORY_ID } from "@/requetes/queries/ads.queries";
 function ViewCategory() {
   const router = useRouter();
-
+  console.log("router.query.id", router.query.id);
   const [ads, setAds] = useState<Ad[]>([]);
-  // const getAds = async () => {
-  //   console.log(router.query.id);
-  //   if (router.query.id) {
-  //     const ads = await axios.get(
-  //       `http://localhost:4000/ads/listbycategory/${router.query.id}`
-  //     );
-  //     console.log("%c⧭", "color: #0088cc", ads);
-  //     // return ads;
-  //   }
-  //   //stocker dans une variable d'état
-  // };
+
+  const [getAds, { data, loading, error }] = useLazyQuery(
+    LIST_ADS_BY_CATEGORY_ID
+  );
+
+  console.log("%c⧭", "color: #e50000", data);
   useEffect(() => {
     // getAds();
     if (router.query.id) {
-      axios
-        .get<Ad[]>(
-          `http://localhost:4000/ads/listbycategory/${router.query.id}`
-        )
-        .then(({ data }) => {
-          console.log(data);
-          setAds(data);
-        });
+      getAds({
+        variables: {
+          listAdsByCategoryId: router.query.id,
+        },
+      });
     }
   }, [router.query.id]);
 
@@ -50,9 +44,9 @@ function ViewCategory() {
       Visualisation de la catégorie ayant l'id : {router.query.id}
       <div className={styles.imageBloc}>
         {/* {monexemple()} */}
-        {ads.length > 0 ? (
+        {data?.listAdsByCategory.length > 0 ? (
           // {ads.length ? (
-          ads.map((a) => (
+          data?.listAdsByCategory.map((a: any) => (
             <AdCard
               key={a.id}
               id={a.id}

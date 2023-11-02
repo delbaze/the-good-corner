@@ -1,11 +1,9 @@
 import { In, Repository } from "typeorm";
-import { Ad } from "../entities/ad.entity";
+import { Ad, CreateAdInput, UpdateAdInput } from "../entities/ad.entity";
 import datasource from "../db";
-import { IAdForm } from "../types/ad";
 import { validate } from "class-validator";
 import CategoryService from "./category.service";
 import { aggregateErrors } from "../lib/utilities";
-import { CreateAdInput, UpdateAdInput } from "../types/resolvers-types";
 // import AggregateError from "aggregate-error";
 export default class AdsService {
   db: Repository<Ad>;
@@ -56,34 +54,47 @@ export default class AdsService {
   }
 
   async create(data: CreateAdInput) {
-    const newAd = this.db.create(data as Partial<Ad>);
+    const categoryToLink = await new CategoryService().find(
+      +data?.category?.id
+    );
+    if (!categoryToLink) {
+      throw new Error("La catégorie n'existe pas!");
+    }
+    const newAd = this.db.create({ ...data, category: categoryToLink });
     const errors = await validate(newAd);
 
     if (errors.length !== 0) {
       throw new AggregateError(aggregateErrors(errors));
     }
-    const { category, ...rest } = { ...newAd };
-    const categoryToLink = await new CategoryService().find(category?.id);
-    if (!categoryToLink) {
-      throw new Error("La catégorie n'existe pas!");
-    }
-    return await this.db.save({ ...rest, category: categoryToLink });
+    return await this.db.save(newAd);
   }
 
   async delete(id: number) {
     const adToDelete = await this.find(id);
+    console.log("adToDelete", adToDelete);
     if (!adToDelete) {
       throw new Error("L'annonce n'existe pas!");
     }
+
     return await this.db.remove(adToDelete);
   }
 
   async update(id: number, data: Omit<UpdateAdInput, "id">) {
+    const categoryToLink = await new CategoryService().find(
+      +data?.category?.id
+    );
+    if (!categoryToLink) {
+      throw new Error("La catégorie n'existe pas!");
+    }
+
     const adToUpdate = await this.find(id);
     if (!adToUpdate) {
       throw new Error("L'annonce n'existe pas!");
     }
-    const adToSave = this.db.merge(adToUpdate, data as Partial<Ad>);
+    const adToSave = this.db.merge(adToUpdate, {
+      ...data,
+      category: categoryToLink,
+    });
     const errors = await validate(adToSave);
     if (errors.length !== 0) {
       console.log(errors);
