@@ -6,6 +6,12 @@ import { errorManager } from "@/lib/utilities";
 import { useQuery, useMutation } from "@apollo/client";
 import { LIST_CATEGORIES } from "@/requetes/queries/categories.queries";
 import { CREATE_AD } from "@/requetes/mutations/ads.mutations";
+import {
+  CreateAdMutation,
+  CreateAdMutationVariables,
+  useCreateAdMutation,
+  useListCategoriesQuery,
+} from "@/types/graphql";
 
 const schema = yup
   .object({
@@ -29,17 +35,22 @@ const schema = yup
   .required();
 
 export default function FormReactHook() {
-  const { data: dataCategories } = useQuery(LIST_CATEGORIES);
-  const [createAd] = useMutation(CREATE_AD, {
-    onCompleted(data) {
-      console.log("DATA");
-      //si tout se passe bien, rediriger vers la catégorie
-      router.push(`/categories/view/${data?.createAd?.category.id}`);
-    },
-    onError(error, clientOptions) {
-          console.log(JSON.stringify(error));
-    },
-  });
+  const { data: dataCategories } = useListCategoriesQuery();
+  // const { data: dataCategories } = useQuery(LIST_CATEGORIES);
+  const [createAd] = useCreateAdMutation(
+    // const [createAd] = useMutation<CreateAdMutation, CreateAdMutationVariables>(
+    //   CREATE_AD,
+    {
+      onCompleted(data) {
+        console.log("DATA");
+        //si tout se passe bien, rediriger vers la catégorie
+        router.push(`/categories/view/${data?.createAd?.category.id}`);
+      },
+      onError(error, clientOptions) {
+        console.log(JSON.stringify(error));
+      },
+    }
+  );
   // const [categories, setCategories] = useState<Category[]>([]);
   const router = useRouter();
   const {
@@ -56,6 +67,7 @@ export default function FormReactHook() {
     const { category, ...formulaireData } = data;
     createAd({
       variables: {
+        // data: {},
         data: { ...formulaireData, category: { id: category } },
       },
     });

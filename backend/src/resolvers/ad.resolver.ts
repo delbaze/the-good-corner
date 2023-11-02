@@ -44,6 +44,8 @@ export class AdResolver {
 
   @Mutation(() => Ad)
   async updateAd(@Arg("data") data: UpdateAdInput) {
+
+    console.log("DATA", data);
     const { id, ...otherData } = data;
     const adToUpdate = await new AdsService().update(+id, otherData);
     return adToUpdate;

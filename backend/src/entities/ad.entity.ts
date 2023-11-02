@@ -61,7 +61,7 @@ export class Ad {
   })
   category: Category;
 
-  // @Field(() => [Tag])
+  @Field(() => [Tag])
   @JoinTable()
   @ManyToMany(() => Tag, (t) => t.ads, {
     cascade: true,
@@ -113,7 +113,7 @@ export class PartialCategoryInput {
 export class CreateAdInput {
   @Field()
   title: string;
-  @Field()
+  @Field({nullable: true})
   description: string;
   @Field()
   owner: string;

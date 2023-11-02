@@ -1,7 +1,7 @@
 import styles from "@/styles/components/categories/Card.module.css";
 import Link from "next/link";
 interface ICard {
-  id: number;
+  id: string;
   name: string;
 }
 function Card({ id, name }: ICard) {

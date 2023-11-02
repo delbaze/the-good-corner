@@ -10,6 +10,6 @@ const config: CodegenConfig = {
       },
       plugins: ['typescript', 'typescript-resolvers'],
     },
-  },
+  }
 };
 export default config;

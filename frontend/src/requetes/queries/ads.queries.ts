@@ -20,3 +20,21 @@ export const FIND_AD_BY_ID = gql`
     }
   }
 `;
+export const FIND_FOR_EDIT_AD_BY_ID = gql`
+  query FindForEditAdById($findAdById: String!) {
+    findAdById(id: $findAdById) {
+      id
+      title
+      description
+      owner
+      price
+      location
+      picture
+      createdAt
+      updatedAt
+      category {
+        id
+      }
+    }
+  }
+`;

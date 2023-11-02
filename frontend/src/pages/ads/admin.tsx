@@ -1,36 +1,24 @@
-import axiosInstance from '@/lib/axiosInstance';
-import Link from 'next/link';
-import styles from '@/styles/pages/ads/Form.module.css';
-import { Ad } from '@/types/ads';
-import { Category } from '@/types/categories';
-import { formatAmount } from '@/lib/utilities';
-import { useEffect, useState } from 'react';
+import Link from "next/link";
+import styles from "@/styles/pages/ads/Form.module.css";
+import { formatAmount } from "@/lib/utilities";
+import { useEffect, useState } from "react";
+import { useListAdsByCategoryLazyQuery, useListCategoriesQuery } from "@/types/graphql";
 
 function AdminAds() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [ads, setAds] = useState<Ad[]>([]);
-
+  const { data } = useListCategoriesQuery({
+    onCompleted(data) {
+      if (data?.listCategories.length) {
+        setFilter(+data.listCategories[0].id);
+      }
+    },
+  });
+  const [getAdsByCategory, {data: dataAds}] = useListAdsByCategoryLazyQuery()
   const [filter, setFilter] = useState<number>();
-  useEffect(() => {
-    axiosInstance
-      .get<Category[]>("/categories/list", {})
-      .then(({ data }) => setCategories(data));
-  }, []);
-
-  //lorsque les catégories arrivent, on établi le filtre initial sur la première catégorie
-  useEffect(() => {
-    if (categories.length) {
-      setFilter(categories[0].id);
-    }
-  }, [categories]);
 
   useEffect(() => {
     if (filter) {
-      console.log("ALLER CHERCHER LES ANNONCES DE " + filter);
-      axiosInstance
-        .get<Ad[]>(`/ads/listByCategory/${filter}`)
-        .then(({ data }) => setAds(data))
-        .catch((error) => console.log(error));
+      // getAdsByCategory({variables: {listAdsByCategoryId: filter.toString()}})
+      getAdsByCategory({variables: {listAdsByCategoryId: `${filter}`}})
     }
   }, [filter]);
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -39,7 +27,7 @@ function AdminAds() {
   return (
     <div>
       <div>
-        {categories.length && (
+        {data?.listCategories.length && (
           <>
             Filtre:
             <select
@@ -48,7 +36,7 @@ function AdminAds() {
               name="category"
               value={filter}
             >
-              {categories.map((c) => (
+              {data.listCategories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
                 </option>
@@ -59,7 +47,7 @@ function AdminAds() {
       </div>
       <div>
         Liste des annonces:
-        {ads.length ? (
+        {dataAds?.listAdsByCategory.length ? (
           <table>
             <thead>
               <tr>
@@ -69,8 +57,8 @@ function AdminAds() {
               </tr>
             </thead>
             <tbody>
-              {ads.map((ad) => (
-                <tr>
+              {dataAds?.listAdsByCategory.map((ad) => (
+                <tr key={ad.id}>
                   <td>{ad.title}</td>
                   <td>{formatAmount(ad.price)}</td>
                   <td>
