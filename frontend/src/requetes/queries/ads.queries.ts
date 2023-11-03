@@ -38,3 +38,16 @@ export const FIND_FOR_EDIT_AD_BY_ID = gql`
     }
   }
 `;
+
+export const LIST_ADS_WITH_FILTER = gql`
+  query ListAdsWithFilter($filter: FilterAd!) {
+    listAdsWithFilter(filter: $filter) {
+      title
+      id
+      category {
+        name
+        id
+      }
+    }
+  }
+`;

@@ -45,6 +45,13 @@ export type AdDeleted = {
   updatedAt: Scalars['String']['output'];
 };
 
+export type AdWithFilter = {
+  __typename?: 'AdWithFilter';
+  category: PartialCategoryForFilter;
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Category = {
   __typename?: 'Category';
   ads: Array<Ad>;
@@ -64,6 +71,11 @@ export type CreateAdInput = {
 
 export type CreateCategoryInput = {
   name: Scalars['String']['input'];
+};
+
+export type FilterAd = {
+  categoryId?: InputMaybe<Scalars['ID']['input']>;
+  title: Scalars['String']['input'];
 };
 
 export type Mutation = {
@@ -94,6 +106,12 @@ export type MutationUpdateAdArgs = {
   data: UpdateAdInput;
 };
 
+export type PartialCategoryForFilter = {
+  __typename?: 'PartialCategoryForFilter';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type PartialCategoryInput = {
   id: Scalars['ID']['input'];
 };
@@ -104,6 +122,7 @@ export type Query = {
   findCategory: Category;
   listAds: Array<Ad>;
   listAdsByCategory: Array<Ad>;
+  listAdsWithFilter: Array<AdWithFilter>;
   listCategories: Array<Category>;
 };
 
@@ -120,6 +139,11 @@ export type QueryFindCategoryArgs = {
 
 export type QueryListAdsByCategoryArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryListAdsWithFilterArgs = {
+  filter: FilterAd;
 };
 
 export type Tag = {
@@ -174,6 +198,13 @@ export type FindForEditAdByIdQueryVariables = Exact<{
 
 
 export type FindForEditAdByIdQuery = { __typename?: 'Query', findAdById: { __typename?: 'Ad', id: string, title: string, description?: string | null, owner: string, price: number, location: string, picture: string, createdAt: string, updatedAt: string, category: { __typename?: 'Category', id: string } } };
+
+export type ListAdsWithFilterQueryVariables = Exact<{
+  filter: FilterAd;
+}>;
+
+
+export type ListAdsWithFilterQuery = { __typename?: 'Query', listAdsWithFilter: Array<{ __typename?: 'AdWithFilter', title: string, id: string, category: { __typename?: 'PartialCategoryForFilter', name: string, id: string } }> };
 
 export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -394,6 +425,51 @@ export type FindForEditAdByIdQueryHookResult = ReturnType<typeof useFindForEditA
 export type FindForEditAdByIdLazyQueryHookResult = ReturnType<typeof useFindForEditAdByIdLazyQuery>;
 export type FindForEditAdByIdSuspenseQueryHookResult = ReturnType<typeof useFindForEditAdByIdSuspenseQuery>;
 export type FindForEditAdByIdQueryResult = Apollo.QueryResult<FindForEditAdByIdQuery, FindForEditAdByIdQueryVariables>;
+export const ListAdsWithFilterDocument = gql`
+    query ListAdsWithFilter($filter: FilterAd!) {
+  listAdsWithFilter(filter: $filter) {
+    title
+    id
+    category {
+      name
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useListAdsWithFilterQuery__
+ *
+ * To run a query within a React component, call `useListAdsWithFilterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListAdsWithFilterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListAdsWithFilterQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useListAdsWithFilterQuery(baseOptions: Apollo.QueryHookOptions<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>(ListAdsWithFilterDocument, options);
+      }
+export function useListAdsWithFilterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>(ListAdsWithFilterDocument, options);
+        }
+export function useListAdsWithFilterSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>(ListAdsWithFilterDocument, options);
+        }
+export type ListAdsWithFilterQueryHookResult = ReturnType<typeof useListAdsWithFilterQuery>;
+export type ListAdsWithFilterLazyQueryHookResult = ReturnType<typeof useListAdsWithFilterLazyQuery>;
+export type ListAdsWithFilterSuspenseQueryHookResult = ReturnType<typeof useListAdsWithFilterSuspenseQuery>;
+export type ListAdsWithFilterQueryResult = Apollo.QueryResult<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>;
 export const ListCategoriesDocument = gql`
     query ListCategories {
   listCategories {

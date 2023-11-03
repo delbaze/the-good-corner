@@ -6,27 +6,15 @@ import {
   useListCategoriesQuery,
   useCreateAdMutation,
   useUpdateAdMutation,
-  FindForEditAdByIdQueryVariables,
-  Ad,
-  PartialCategoryInput,
   CreateAdInput,
   UpdateAdInput,
-  FindAdByIdQueryResult,
-  FindAdByIdQueryHookResult,
   FindForEditAdByIdQuery,
-  ListCategoriesQueryVariables,
 } from "@/types/graphql";
-import { LIST_CATEGORIES } from "@/requetes/queries/categories.queries";
-import { useQuery } from "@apollo/client";
-import { ListCategoriesQuery } from "@/types/graphql";
 interface IError {
   field: string | null;
   message: string;
 }
-interface InitialData extends Omit<Ad, "category" | "__typename"> {
-  category: { id: string };
-  // description?: string | null;
-}
+
 function Form({ data }: { data: FindForEditAdByIdQuery["findAdById"] }) {
   const { createdAt, updatedAt, ...initialData } = data;
 

@@ -102,6 +102,26 @@ export class AdDeleted {
   // tags: Tag[];
 }
 
+@ObjectType()
+export class PartialCategoryForFilter {
+  @Field(() => ID)
+  id: string;
+
+  @Field()
+  name: string;
+}
+@ObjectType()
+export class AdWithFilter {
+
+  @Field(() => ID)
+  id: string;
+ 
+  @Field()
+  title: string; 
+ 
+  @Field(() => PartialCategoryForFilter)
+  category: PartialCategoryForFilter;
+}
 //INPUTS
 
 @InputType()
@@ -146,4 +166,17 @@ export class UpdateAdInput {
   picture: string
   @Field({nullable: true})
   category: PartialCategoryInput
+}
+
+
+@InputType()
+export class FilterAd {
+  
+  @Field()
+  title: string
+
+  // évolution à venir, indiquer un categoryId pour filter dans une categorie
+  @Field(() => ID, {nullable: true})
+  categoryId?: string
+
 }
