@@ -36,8 +36,6 @@ export class AdResolver {
 
   @Query(() => Ad)
   async findAdById(@Arg("id") id: string) {
-    console.log("id", id);
-    console.log("TYPE", typeof id);
     if (isNaN(+id)) {
       throw new Error("Indiquez un id correct");
     }
