@@ -14,13 +14,16 @@ import {
   FindAdByIdQueryResult,
   FindAdByIdQueryHookResult,
   FindForEditAdByIdQuery,
+  ListCategoriesQueryVariables,
 } from "@/types/graphql";
+import { LIST_CATEGORIES } from "@/requetes/queries/categories.queries";
+import { useQuery } from "@apollo/client";
+import { ListCategoriesQuery } from "@/types/graphql";
 interface IError {
   field: string | null;
   message: string;
 }
-interface InitialData
-  extends Omit<Ad, "category" | "__typename"> {
+interface InitialData extends Omit<Ad, "category" | "__typename"> {
   category: { id: string };
   // description?: string | null;
 }
@@ -30,6 +33,10 @@ function Form({ data }: { data: FindForEditAdByIdQuery["findAdById"] }) {
   const router = useRouter();
 
   const { data: categoriesData } = useListCategoriesQuery();
+  // const { data: categoriesData } = useQuery<
+  //   ListCategoriesQuery,
+  //   ListCategoriesQueryVariables
+  // >(LIST_CATEGORIES);
 
   const [createAd] = useCreateAdMutation({
     onCompleted(data) {
