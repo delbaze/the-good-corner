@@ -38,7 +38,7 @@ export class AdResolver {
   async findAdById(@Arg("id") id: string) {
     console.log("id", id);
     console.log("TYPE", typeof id);
-    if (!isNaN(+id)) {
+    if (isNaN(+id)) {
       throw new Error("Indiquez un id correct");
     }
     const ad = await new AdsService().find(+id);
