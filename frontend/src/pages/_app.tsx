@@ -11,6 +11,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 const client = new ApolloClient({
   uri: "http://localhost:4000",
   cache: new InMemoryCache({ addTypename: false }),
+  // defaultOptions: {
+    // watchQuery: { fetchPolicy: "no-cache", nextFetchPolicy: "no-cache" },
+  // },
 });
 interface ComponentWithTitle extends AppProps {
   Component: NextComponentType<NextPageContext, any, any> & {

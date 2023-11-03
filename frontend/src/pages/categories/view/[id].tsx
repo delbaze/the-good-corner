@@ -14,7 +14,10 @@ function ViewCategory() {
   console.log("router.query.id", router.query.id);
   const [ads, setAds] = useState<Ad[]>([]);
 
-  const [getAds, { data, loading, error }] = useListAdsByCategoryLazyQuery();
+  const [getAds, { data, loading, error }] = useListAdsByCategoryLazyQuery({
+    fetchPolicy: "no-cache",
+  });
+  console.log("%c⧭", "color: #1d5673", data);
   // const [getAds, { data, loading, error }] = useLazyQuery<ListAdsByCategoryQuery>(
   //   LIST_ADS_BY_CATEGORY_ID
   // );

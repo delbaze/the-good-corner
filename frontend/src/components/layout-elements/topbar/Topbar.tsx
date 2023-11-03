@@ -13,6 +13,7 @@ function Topbar() {
       <div className={styles.inputBloc}>
         <SearchBar />
       </div>
+      <Link href={"/ads/admin"} className={styles.addAdButton}>Administrer</Link>
       <Link href={"/ads/create"} className={styles.addAdButton}>Ajouter une annonce</Link>
     </nav>
   );

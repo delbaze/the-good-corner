@@ -3,6 +3,7 @@ import styles from "@/styles/pages/categories/list/Categories.module.css";
 import { useQuery } from "@apollo/client";
 import { LIST_CATEGORIES } from "@/requetes/queries/categories.queries";
 import { ListCategoriesQuery, useListCategoriesQuery } from "@/types/graphql";
+import { useEffect } from "react";
 
 function Categories() {
   /**=======================
@@ -16,8 +17,13 @@ function Categories() {
     },
     onError(error) {
       console.log("ERROR", error);
+
     },
   });
+
+  useEffect(() => {
+    console.log("DATA", data);
+  },[data])
 
   if (loading) {
     return <div>Chargement en cours</div>;
