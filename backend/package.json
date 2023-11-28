@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --watch ./src ./src/index.ts",
     "resetDB": "ts-node-dev src/resetDb.ts",
+    "loadFixtures": "fixtures-ts-node-esm load ./src/fixtures --dataSource=./src/db.ts --sync",
     "generate": "graphql-codegen --watch"
   },
   "repository": {
@@ -45,6 +46,7 @@
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.17",
     "@types/node": "^20.8.9",
+    "typeorm-fixtures-cli": "^4.0.0",
     "typescript": "^5.2.2"
   }
 }
