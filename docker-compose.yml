@@ -1,0 +1,54 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - 4000:4000
+    # expose:
+    #   - 4000
+    volumes:
+      - ./backend/src:/app/src
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    depends_on:
+      db:
+        condition: service_healthy
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/app/src
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    # env_file:
+    #   - ./.env
+  db:
+    image: postgres
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d thegoodcorner -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: thegoodcorner
+    ports:
+      - 5433:5432
+    volumes:
+      - thegoodcorner-data:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  thegoodcorner-data:
