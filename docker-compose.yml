@@ -1,7 +1,6 @@
 services:
   backend:
     build: ./backend
-    command: npm run dev
     ports:
       - 4000:4000
     # expose:
