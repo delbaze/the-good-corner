@@ -13,7 +13,7 @@ export default class CategoryService {
     const categories = await this.db.find({
       relations: {
         ads: true,
-      },
+      }
     });
 
     return categories;

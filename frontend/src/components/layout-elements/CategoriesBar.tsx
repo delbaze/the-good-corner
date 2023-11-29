@@ -6,19 +6,19 @@ import { Category } from "@/types/categories";
 
 const data: Category[] = [
   {
-    id: 1,
+    id: "1",
     name: "Chaussures",
   },
   {
-    id: 2,
+    id: "2",
     name: "Vêtements",
   },
   {
-    id: 3,
+    id: "3",
     name: "Voitures",
   },
   {
-    id: 4,
+    id: "4",
     name: "Sports et loisirs",
   },
 ];
