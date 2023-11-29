@@ -7,6 +7,7 @@
     "start": "ts-node-dev --watch ./src ./src/index.ts",
     "resetDB": "ts-node-dev src/resetDb.ts",
     "loadFixtures": "fixtures-ts-node-esm load ./src/fixtures --dataSource=./src/db.ts --sync",
+    "loadFixturesLocal": "fixtures-ts-node-esm load ./src/fixtures --dataSource=./src/dbLocalFixtures.ts --sync",
     "generate": "graphql-codegen --watch"
   },
   "repository": {
