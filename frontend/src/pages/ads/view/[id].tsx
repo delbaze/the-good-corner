@@ -11,6 +11,7 @@ interface IError {
 function ViewAd() {
   const router = useRouter();
   const [getAd, { data, error, loading }] = useLazyQuery(FIND_AD_BY_ID);
+  console.log('%c⧭', 'color: #bfffc8', data);
   useEffect(() => {
     if (router.query.id) {
       getAd({

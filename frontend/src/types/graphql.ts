@@ -45,6 +45,12 @@ export type AdDeleted = {
   updatedAt: Scalars['String']['output'];
 };
 
+export type AdWithCount = {
+  __typename?: 'AdWithCount';
+  ads: Array<Ad>;
+  count: Scalars['Float']['output'];
+};
+
 export type AdWithFilter = {
   __typename?: 'AdWithFilter';
   category: PartialCategoryForFilter;
@@ -121,7 +127,7 @@ export type Query = {
   findAdById: Ad;
   findCategory: Category;
   listAds: Array<Ad>;
-  listAdsByCategory: Array<Ad>;
+  listAdsByCategory: AdWithCount;
   listAdsRandom: Array<Ad>;
   listAdsWithFilter: Array<AdWithFilter>;
   listCategories: Array<Category>;
@@ -196,7 +202,7 @@ export type ListAdsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type ListAdsByCategoryQuery = { __typename?: 'Query', listAdsByCategory: Array<{ __typename?: 'Ad', id: string, picture: string, price: number, title: string }> };
+export type ListAdsByCategoryQuery = { __typename?: 'Query', listAdsByCategory: { __typename?: 'AdWithCount', count: number, ads: Array<{ __typename?: 'Ad', id: string, picture: string, price: number, title: string }> } };
 
 export type FindAdByIdQueryVariables = Exact<{
   findAdById: Scalars['String']['input'];
@@ -345,10 +351,13 @@ export type DeleteAdMutationOptions = Apollo.BaseMutationOptions<DeleteAdMutatio
 export const ListAdsByCategoryDocument = gql`
     query ListAdsByCategory($listAdsByCategoryId: String!) {
   listAdsByCategory(id: $listAdsByCategoryId) {
-    id
-    picture
-    price
-    title
+    count
+    ads {
+      id
+      picture
+      price
+      title
+    }
   }
 }
     `;

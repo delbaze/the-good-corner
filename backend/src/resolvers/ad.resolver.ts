@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Float, Mutation, Query, Resolver } from "type-graphql";
 import AdsService from "../services/ads.service";
 import CategoryService from "../services/category.service";
 import {
   Ad,
   AdDeleted,
+  AdWithCount,
   AdWithFilter,
   CreateAdInput,
   FilterAd,
@@ -24,7 +25,7 @@ export class AdResolver {
     return ads;
   }
 
-  @Query(() => [Ad])
+  @Query(() => AdWithCount)
   async listAdsByCategory(@Arg("id") id: string) {
     const category = await new CategoryService().find(+id);
     if (!category) {

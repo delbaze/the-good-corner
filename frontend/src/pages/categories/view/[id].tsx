@@ -26,8 +26,11 @@ function ViewCategory() {
     <div>
       Visualisation de la catégorie ayant l'id : {router.query.id}
       <div className={styles.imageBloc}>
-        {data?.listAdsByCategory && data?.listAdsByCategory.length > 0 ? (
-          data?.listAdsByCategory.map((a) => (
+        <div>
+          <h1>Nombre d'annonces : {data?.listAdsByCategory.count}</h1>
+        </div>
+        {data?.listAdsByCategory && data?.listAdsByCategory.ads.length > 0 ? (
+          data?.listAdsByCategory.ads.map((a) => (
             <AdCard
               key={a.id}
               id={a.id}

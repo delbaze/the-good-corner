@@ -112,18 +112,25 @@ export class PartialCategoryForFilter {
 }
 @ObjectType()
 export class AdWithFilter {
-
   @Field(() => ID)
   id: string;
- 
+
   @Field()
-  title: string; 
- 
+  title: string;
+
   @Field(() => PartialCategoryForFilter)
   category: PartialCategoryForFilter;
 }
-//INPUTS
+@ObjectType()
+export class AdWithCount {
+  @Field(() => [Ad])
+  ads: [Ad];
 
+  @Field()
+  count: number;
+}
+
+//INPUTS
 @InputType()
 export class PartialCategoryInput {
   @Field(() => ID)
@@ -133,7 +140,7 @@ export class PartialCategoryInput {
 export class CreateAdInput {
   @Field()
   title: string;
-  @Field({nullable: true})
+  @Field({ nullable: true })
   description: string;
   @Field()
   owner: string;
@@ -145,38 +152,34 @@ export class CreateAdInput {
   picture: string;
   @Field()
   category: PartialCategoryInput;
-
 }
 
 @InputType()
 export class UpdateAdInput {
   @Field(() => ID)
-  id: string
-  @Field({nullable: true})
-  title: string
-  @Field({nullable: true})
-  description: string
-  @Field({nullable: true})
-  owner: string
-  @Field({nullable: true})
-  price: number
-  @Field({nullable: true})
-  location: string
-  @Field({nullable: true})
-  picture: string
-  @Field({nullable: true})
-  category: PartialCategoryInput
+  id: string;
+  @Field({ nullable: true })
+  title: string;
+  @Field({ nullable: true })
+  description: string;
+  @Field({ nullable: true })
+  owner: string;
+  @Field({ nullable: true })
+  price: number;
+  @Field({ nullable: true })
+  location: string;
+  @Field({ nullable: true })
+  picture: string;
+  @Field({ nullable: true })
+  category: PartialCategoryInput;
 }
-
 
 @InputType()
 export class FilterAd {
-  
   @Field()
-  title: string
+  title: string;
 
   // évolution à venir, indiquer un categoryId pour filter dans une categorie
-  @Field(() => ID, {nullable: true})
-  categoryId?: string
-
+  @Field(() => ID, { nullable: true })
+  categoryId?: string;
 }

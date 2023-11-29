@@ -20,7 +20,6 @@ function AdminAds() {
   });
   const [filter, setFilter] = useState<number>();
 
-  console.log("%c⧭", "color: #731d6d", dataAds);
   useEffect(() => {
     if (filter) {
       // getAdsByCategory({variables: {listAdsByCategoryId: filter.toString()}})
@@ -53,7 +52,7 @@ function AdminAds() {
       </div>
       <div>
         Liste des annonces:
-        {dataAds?.listAdsByCategory.length ? (
+        {dataAds?.listAdsByCategory.ads.length ? (
           <table>
             <thead>
               <tr>
@@ -63,7 +62,7 @@ function AdminAds() {
               </tr>
             </thead>
             <tbody>
-              {dataAds?.listAdsByCategory.map((ad) => (
+              {dataAds?.listAdsByCategory.ads.map((ad) => (
                 <tr key={ad.id}>
                   <td>{ad.title}</td>
                   <td>{formatAmount(ad.price)}</td>

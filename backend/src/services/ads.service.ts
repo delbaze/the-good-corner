@@ -18,27 +18,7 @@ export default class AdsService {
     this.db = datasource.getRepository(Ad);
     this.dbCategory = datasource.getRepository(Category);
   }
-  // async listWithFilter({ title, categoryId }: FilterAd) {
-  //   const result = await this.dbCategory.find({
-  //     relations: {
-  //       ads: true,
-  //     },
-  //     select: {
-  //       id: true,
-  //       name: true,
-  //       ads: {
-  //         id: true,
-  //         title: true,
-  //       },
-  //     },
-  //     where: {
-  //       ads: { title: title ? Like(`%${title}%`) : undefined },
-  //       id: categoryId ? +categoryId : undefined,
-  //     },
-  //   });
-  //   console.log("RESULT", result);
-  //   return result;
-  // }
+
   async listWithFilter({ title, categoryId }: FilterAd) {
     return await this.db
       .createQueryBuilder("a")
@@ -48,23 +28,6 @@ export default class AdsService {
         title: `%${title.toLowerCase()}%`,
       })
       .getMany();
-    // return await this.db.find({
-    //   relations: {
-    //     category: true,
-    //   },
-    //   select: {
-    //     id: true,
-    //     title: true,
-    //     category: {
-    //       id: true,
-    //       name: true,
-    //     },
-    //   },
-    //   where: [
-    //     {title: title ? Like(`%${title}%`) : undefined},
-    //     // {category: { id: categoryId ? +categoryId : undefined }},
-    //   ],
-    // });
   }
 
   async list(tagIds?: string) {
@@ -91,11 +54,15 @@ export default class AdsService {
       .limit(5)
       .getMany();
   }
+
   async listByCategory(id: number) {
-    return await this.db.find({
+    const [ads, count] = await this.db.findAndCount({
       where: { category: { id } },
       order: { createdAt: "DESC" },
+      take: 5
     });
+
+    return { ads, count };
   }
 
   async find(id: number) {
