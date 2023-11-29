@@ -51,3 +51,14 @@ export const LIST_ADS_WITH_FILTER = gql`
     }
   }
 `;
+
+export const LIST_ADS_RANDOM = gql`
+  query ListAdsRandom {
+    listAdsRandom {
+      id
+      picture
+      price
+      title
+    }
+  }
+`;

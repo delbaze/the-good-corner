@@ -44,7 +44,9 @@ export default class AdsService {
       .createQueryBuilder("a")
       .select(["a.id", "a.title"])
       .leftJoinAndSelect("a.category", "category")
-      .where("LOWER(a.title) LIKE :title", { title: `%${title.toLowerCase()}%` })
+      .where("LOWER(a.title) LIKE :title", {
+        title: `%${title.toLowerCase()}%`,
+      })
       .getMany();
     // return await this.db.find({
     //   relations: {
@@ -82,6 +84,13 @@ export default class AdsService {
     });
   }
 
+  async listRandom() {
+    return await this.db
+      .createQueryBuilder("a")
+      .orderBy("RANDOM()")
+      .limit(5)
+      .getMany();
+  }
   async listByCategory(id: number) {
     return await this.db.find({
       where: { category: { id } },

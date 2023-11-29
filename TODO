@@ -7,8 +7,8 @@
 ✔ Gestion erreurs (bonus) @done(23-11-29 10:59)
 ✔ Suppression d'une annonce depuis la rubrique administration @done(23-11-29 12:19)
 ✔ recheck le module de recherche @done(23-11-29 12:19)
-☐ mettre à jour la barre de categories avec 4 catégories seulement
-☐ sur la page d'accueil afficher 5 annonces au hasard
+✔ mettre à jour la barre de categories avec 4 catégories seulement @done(23-11-29 15:59)
+✔ sur la page d'accueil afficher 5 annonces au hasard @done(23-11-29 16:15)
 
 ☐ gérer une pagination pour n'afficher 20 annonces par page
 

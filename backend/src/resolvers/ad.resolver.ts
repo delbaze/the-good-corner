@@ -21,7 +21,6 @@ export class AdResolver {
   @Query(() => [AdWithFilter])
   async listAdsWithFilter(@Arg("filter") filter: FilterAd) {
     const ads = await new AdsService().listWithFilter(filter);
-    console.log('ADSSSSSSS=>', ads);
     return ads;
   }
 
@@ -45,6 +44,12 @@ export class AdResolver {
       throw new Error("Attention, l'annonce n'existe pas");
     }
     return ad;
+  }
+
+  @Query(() => [Ad])
+  async listAdsRandom() {
+    const ads = await new AdsService().listRandom();
+    return ads;
   }
 
   @Mutation(() => Ad)
