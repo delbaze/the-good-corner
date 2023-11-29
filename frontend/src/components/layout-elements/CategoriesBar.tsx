@@ -1,31 +1,13 @@
 import Link from "next/link";
-
 import styles from "@/styles/components/layout-elements/CategoriesBar.module.css";
 import ActiveLink from "../common/ActiveLink";
-import { Category } from "@/types/categories";
+import { useListCategoriesQuery } from "@/types/graphql";
 
-const data: Category[] = [
-  {
-    id: "1",
-    name: "Chaussures",
-  },
-  {
-    id: "2",
-    name: "Vêtements",
-  },
-  {
-    id: "3",
-    name: "Voitures",
-  },
-  {
-    id: "4",
-    name: "Sports et loisirs",
-  },
-];
 function CategoriesBar() {
+  const { data } = useListCategoriesQuery({ variables: { limit: 4 } });
   return (
     <div className={styles.categoriesBloc}>
-      {data.map((category) => (
+      {data?.listCategories.map((category) => (
         <ActiveLink
           key={category.id}
           href={`/categories/view/${category.id}`}

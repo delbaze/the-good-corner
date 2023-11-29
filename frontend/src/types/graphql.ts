@@ -146,6 +146,11 @@ export type QueryListAdsWithFilterArgs = {
   filter: FilterAd;
 };
 
+
+export type QueryListCategoriesArgs = {
+  limit?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type Tag = {
   __typename?: 'Tag';
   ads: Array<Ad>;
@@ -213,10 +218,12 @@ export type ListAdsWithFilterQueryVariables = Exact<{
 
 export type ListAdsWithFilterQuery = { __typename?: 'Query', listAdsWithFilter: Array<{ __typename?: 'AdWithFilter', title: string, id: string, category: { __typename?: 'PartialCategoryForFilter', name: string, id: string } }> };
 
-export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ListCategoriesQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Float']['input']>;
+}>;
 
 
-export type ListCategoriesQuery = { __typename?: 'Query', listCategories: Array<{ __typename?: 'Category', name: string, id: string }> };
+export type ListCategoriesQuery = { __typename?: 'Query', listCategories: Array<{ __typename?: 'Category', id: string, name: string }> };
 
 
 export const CreateAdDocument = gql`
@@ -511,10 +518,10 @@ export type ListAdsWithFilterLazyQueryHookResult = ReturnType<typeof useListAdsW
 export type ListAdsWithFilterSuspenseQueryHookResult = ReturnType<typeof useListAdsWithFilterSuspenseQuery>;
 export type ListAdsWithFilterQueryResult = Apollo.QueryResult<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>;
 export const ListCategoriesDocument = gql`
-    query ListCategories {
-  listCategories {
-    name
+    query ListCategories($limit: Float) {
+  listCategories(limit: $limit) {
     id
+    name
   }
 }
     `;
@@ -531,6 +538,7 @@ export const ListCategoriesDocument = gql`
  * @example
  * const { data, loading, error } = useListCategoriesQuery({
  *   variables: {
+ *      limit: // value for 'limit'
  *   },
  * });
  */
