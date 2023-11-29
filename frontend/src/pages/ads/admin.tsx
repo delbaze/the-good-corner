@@ -2,7 +2,10 @@ import Link from "next/link";
 import styles from "@/styles/pages/ads/Form.module.css";
 import { formatAmount } from "@/lib/utilities";
 import { useEffect, useState } from "react";
-import { useListAdsByCategoryLazyQuery, useListCategoriesQuery } from "@/types/graphql";
+import {
+  useListAdsByCategoryLazyQuery,
+  useListCategoriesQuery,
+} from "@/types/graphql";
 
 function AdminAds() {
   const { data } = useListCategoriesQuery({
@@ -12,13 +15,16 @@ function AdminAds() {
       }
     },
   });
-  const [getAdsByCategory, {data: dataAds}] = useListAdsByCategoryLazyQuery()
+  const [getAdsByCategory, { data: dataAds }] = useListAdsByCategoryLazyQuery({
+    fetchPolicy: "no-cache",
+  });
   const [filter, setFilter] = useState<number>();
 
+  console.log("%c⧭", "color: #731d6d", dataAds);
   useEffect(() => {
     if (filter) {
       // getAdsByCategory({variables: {listAdsByCategoryId: filter.toString()}})
-      getAdsByCategory({variables: {listAdsByCategoryId: `${filter}`}})
+      getAdsByCategory({ variables: { listAdsByCategoryId: `${filter}` } });
     }
   }, [filter]);
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

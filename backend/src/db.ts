@@ -8,6 +8,6 @@ export default new DataSource({
   password: "postgres",
   database: "thegoodcorner",
   synchronize: true,//en dev, en prod on préfera utiliser les migrations
-  logging: true,
+  logging: ["query", "error"],
   entities: ["src/entities/*.ts"],
 });

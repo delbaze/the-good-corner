@@ -8,7 +8,9 @@ import Highlighter from "react-highlight-words";
 function SearchBar() {
   // return <input placeholder="Rechercher" className={styles.inputSearch} />;
   const { push } = useRouter();
-  const [search, { data }] = useListAdsWithFilterLazyQuery();
+  const [search, { data }] = useListAdsWithFilterLazyQuery({
+    fetchPolicy: "no-cache"
+  });
   const [currentSearch, setCurrentSearch] = useState("");
   console.log("%c⧭", "color: #f200e2", data);
   //choix qui est fait dans le liste
@@ -32,7 +34,12 @@ function SearchBar() {
     //faire l'appel au back
     if (e?.target.value) {
       setCurrentSearch(e.target.value);
-      search({ variables: { filter: { title: e.target.value } } });
+      search({
+        variables: { filter: { title: e.target.value } },
+        onCompleted(data) {
+          console.log("DATA", data);
+        },
+      });
     }
   };
   console.log("currentSearch", currentSearch);

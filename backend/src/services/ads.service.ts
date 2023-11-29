@@ -40,23 +40,29 @@ export default class AdsService {
   //   return result;
   // }
   async listWithFilter({ title, categoryId }: FilterAd) {
-    return await this.db.find({
-      relations: {
-        category: true,
-      },
-      select: {
-        id: true,
-        title: true,
-        category: {
-          id: true,
-          name: true,
-        },
-      },
-      where: {
-        title: title ? Like(`%${title}%`) : undefined,
-        category: { id: categoryId ? +categoryId : undefined },
-      },
-    });
+    return await this.db
+      .createQueryBuilder("a")
+      .select(["a.id", "a.title"])
+      .leftJoinAndSelect("a.category", "category")
+      .where("LOWER(a.title) LIKE :title", { title: `%${title.toLowerCase()}%` })
+      .getMany();
+    // return await this.db.find({
+    //   relations: {
+    //     category: true,
+    //   },
+    //   select: {
+    //     id: true,
+    //     title: true,
+    //     category: {
+    //       id: true,
+    //       name: true,
+    //     },
+    //   },
+    //   where: [
+    //     {title: title ? Like(`%${title}%`) : undefined},
+    //     // {category: { id: categoryId ? +categoryId : undefined }},
+    //   ],
+    // });
   }
 
   async list(tagIds?: string) {

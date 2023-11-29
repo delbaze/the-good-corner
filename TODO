@@ -5,7 +5,7 @@
 ✔ Envoi des données à l'api graphql au submit du formulaire @done(23-11-02 15:01)
 ✔ Typage!!! codegen @done(23-11-29 10:59)
 ✔ Gestion erreurs (bonus) @done(23-11-29 10:59)
-☐ Suppression d'une annonce depuis la rubrique administration
+Suppression d'une annonce depuis la rubrique administration
 ☐ recheck le module de recherche
 ☐ mettre à jour la barre de categories avec 4 catégories seulement
 ☐ l'ajout au panier (contexte react) 
