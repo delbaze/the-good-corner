@@ -22,3 +22,14 @@ items:
     tags:
       - "@tag3"
       - "@tag4"
+  ad{21..100}:
+    title: "{{commerce.product}}"
+    description: "{{commerce.productDescription}}"
+    owner: "{{person.fullName}}"
+    price: "{{commerce.price}}"
+    picture: "{{image.url}}"
+    location: "{{location.city}}"
+    category: "@category2"
+    tags:
+      - "@tag3"
+      - "@tag4"
