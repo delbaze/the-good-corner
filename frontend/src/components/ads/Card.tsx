@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { ShopContext } from "@/contextes/ShopContext";
 function Card({ id, picture, price, title }: IAdCard) {
   const {addToCart, cart} = useContext(ShopContext)
-  console.log("CART", cart);
   return (
     <div className={styles.card}>
       <div>{title}</div>

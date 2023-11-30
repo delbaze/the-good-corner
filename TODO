@@ -10,8 +10,9 @@
 ✔ mettre à jour la barre de categories avec 4 catégories seulement @done(23-11-29 15:59)
 ✔ sur la page d'accueil afficher 5 annonces au hasard @done(23-11-29 16:15)
 
-☐ gérer une pagination pour n'afficher 20 annonces par page
+✔ gérer une pagination pour n'afficher 20 annonces par page @done(23-11-30 11:52)
 
-☐ l'ajout au panier (contexte react)
+✔ l'ajout au panier (contexte react) @done(23-11-30 15:52)
+☐ l'ajout dans le panier doit maintenant être un tableau d'objet, chaque objet etant de ce type : { productId: "azerty", quantity: 1}
 ☐ page de checkout (recapitulatif de la commande);
 ☐ Envoi d'image pour l'annonce dans un service à part (micro-service)

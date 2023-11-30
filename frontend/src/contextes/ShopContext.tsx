@@ -1,4 +1,4 @@
-import {  createContext, useReducer} from "react";
+import { createContext, useReducer } from "react";
 
 interface IShopContext {
   addToCart: (productId: string) => void;
@@ -6,6 +6,10 @@ interface IShopContext {
   cart: string[];
 }
 
+interface CartObjet{
+  quantity: number;
+  productId: string;
+}
 interface IState {
   cart: string[];
 }
