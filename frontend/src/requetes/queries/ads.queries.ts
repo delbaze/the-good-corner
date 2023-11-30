@@ -11,8 +11,8 @@ import { gql } from "@apollo/client";
 //   }
 // `;
 export const LIST_ADS_BY_CATEGORY_ID = gql`
-  query ListAdsByCategory($listAdsByCategoryId: String!) {
-    listAdsByCategory(id: $listAdsByCategoryId) {
+  query ListAdsByCategory($listAdsByCategoryId: String!, $offset: Float, $limit: Float) {
+    listAdsByCategory(id: $listAdsByCategoryId, offset: $offset, limit: $limit) {
       count
       ads {
         id

@@ -146,6 +146,8 @@ export type QueryFindCategoryArgs = {
 
 export type QueryListAdsByCategoryArgs = {
   id: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
@@ -199,6 +201,8 @@ export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: { __typename
 
 export type ListAdsByCategoryQueryVariables = Exact<{
   listAdsByCategoryId: Scalars['String']['input'];
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
@@ -349,8 +353,8 @@ export type DeleteAdMutationHookResult = ReturnType<typeof useDeleteAdMutation>;
 export type DeleteAdMutationResult = Apollo.MutationResult<DeleteAdMutation>;
 export type DeleteAdMutationOptions = Apollo.BaseMutationOptions<DeleteAdMutation, DeleteAdMutationVariables>;
 export const ListAdsByCategoryDocument = gql`
-    query ListAdsByCategory($listAdsByCategoryId: String!) {
-  listAdsByCategory(id: $listAdsByCategoryId) {
+    query ListAdsByCategory($listAdsByCategoryId: String!, $offset: Float, $limit: Float) {
+  listAdsByCategory(id: $listAdsByCategoryId, offset: $offset, limit: $limit) {
     count
     ads {
       id
@@ -375,6 +379,8 @@ export const ListAdsByCategoryDocument = gql`
  * const { data, loading, error } = useListAdsByCategoryQuery({
  *   variables: {
  *      listAdsByCategoryId: // value for 'listAdsByCategoryId'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
  *   },
  * });
  */

@@ -55,12 +55,14 @@ export default class AdsService {
       .getMany();
   }
 
-  async listByCategory(id: number) {
+  async listByCategory(id: number, limit?: number, offset?: number) {
+    console.log("limit", limit)
+    console.log("offset", offset)
     const [ads, count] = await this.db.findAndCount({
       where: { category: { id } },
-      order: { createdAt: "DESC" },
-      take: 5,
-      // skip: 5
+      // order: { createdAt: "DESC" },
+      take: limit ?? undefined,
+      skip: offset ?? undefined
     });
 
     return { ads, count };

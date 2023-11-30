@@ -26,12 +26,16 @@ export class AdResolver {
   }
 
   @Query(() => AdWithCount)
-  async listAdsByCategory(@Arg("id") id: string) {
+  async listAdsByCategory(
+    @Arg("id") id: string,
+    @Arg("limit", { nullable: true }) limit: number,
+    @Arg("offset", { nullable: true }) offset: number
+  ) {
     const category = await new CategoryService().find(+id);
     if (!category) {
       throw new Error("La catégorie n'existe pas");
     }
-    const ads = await new AdsService().listByCategory(+id);
+    const ads = await new AdsService().listByCategory(+id, limit, offset);
     return ads;
   }
 

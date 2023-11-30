@@ -16,3 +16,7 @@
   gap: 0.5rem;
   padding: 2rem;
 }
+.ads{
+  display:flex;
+  flex-flow: wrap;
+}
