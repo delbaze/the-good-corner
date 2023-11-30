@@ -6,12 +6,13 @@ interface IShopContext {
   cart: string[];
 }
 
-interface CartObjet{
+interface CartObjet {
   quantity: number;
   productId: string;
 }
 interface IState {
-  cart: string[];
+  cart: CartObjet[];
+  // cart: string[];
 }
 interface IAction {
   type: string;
@@ -24,6 +25,8 @@ function ShopContextProvider({ children }: React.PropsWithChildren) {
     switch (action.type) {
       case "addToCart": {
         if (action.productId) {
+          //[{productId: "toto", quantity: 1}]
+          //verifier dans le cart existant (state.cart) que le produit existe (est ce qu'un objet ayant comme valeur l'id reçu dans la clé productId existe)
           const cart = [...state.cart, action.productId];
           localStorage.setItem("cart", JSON.stringify(cart));
           return {
