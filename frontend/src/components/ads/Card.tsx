@@ -5,7 +5,7 @@ import { formatAmount } from "@/lib/utilities";
 import { useContext } from "react";
 import { ShopContext } from "@/contextes/ShopContext";
 function Card({ id, picture, price, title }: IAdCard) {
-  const {addToCart, cart} = useContext(ShopContext)
+  const { addToCart } = useContext(ShopContext);
   return (
     <div className={styles.card}>
       <div>{title}</div>
@@ -14,7 +14,12 @@ function Card({ id, picture, price, title }: IAdCard) {
       </Link>
       <div className={styles.bottomCard}>
         <div className={styles.adCardPrice}>{formatAmount(price)}</div>
-        <button className={styles.adCardButton} onClick={() => addToCart(id)}>Ajouter au panier</button>
+        <button
+          className={styles.adCardButton}
+          onClick={() => addToCart(id, title, price)}
+        >
+          Ajouter au panier
+        </button>
       </div>
     </div>
   );

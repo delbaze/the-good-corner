@@ -1,14 +1,17 @@
 import { createContext, useReducer } from "react";
 
 interface IShopContext {
-  addToCart: (productId: string) => void;
-  removeFromCart: () => void;
+  addToCart: (productId: string, title: string, price: number) => void;
+  removeFromCart: (productId: string) => void;
+  deleteFromCart: (productId: string) => void;
   cart: CartObjet[];
 }
 
 interface CartObjet {
   quantity: number;
   productId: string;
+  title: string;
+  price: number;
 }
 interface IState {
   cart: CartObjet[];
@@ -16,6 +19,8 @@ interface IState {
 interface IAction {
   type: string;
   productId?: string;
+  title?: string;
+  price?: number;
 }
 export const ShopContext = createContext({} as IShopContext);
 
@@ -23,21 +28,57 @@ function ShopContextProvider({ children }: React.PropsWithChildren) {
   function reducer(state: IState, action: IAction) {
     switch (action.type) {
       case "addToCart": {
-   
-        if (action.productId) {
-          let cart = [...state.cart]
-          const objectInCart = cart.find(object => object.productId === action.productId)
-          if(objectInCart) {
+        if (action.productId && action.title && action.price) {
+          let cart = [...state.cart];
+          const objectInCart = cart.find(
+            (object) => object.productId === action.productId
+          );
+          if (objectInCart) {
             const objectIndex = cart.indexOf(objectInCart);
-            cart[objectIndex].quantity ++
+            cart[objectIndex].quantity++;
           } else {
-            cart.push({productId: action.productId, quantity: 1})
+            cart.push({
+              productId: action.productId,
+              quantity: 1,
+              title: action.title,
+              price: action.price,
+            });
           }
           localStorage.setItem("cart", JSON.stringify(cart));
           return {
             ...state,
             cart,
           };
+        }
+        return state;
+      }
+      case "removeFromCart": {
+        if (action.productId) {
+          const cart = state.cart.map((o) => Object.assign({}, o));
+          const product = cart.find((p) => p.productId === action.productId);
+          product?.quantity && product.quantity--;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          return {
+            ...state,
+            cart,
+          };
+        }
+        return state;
+      }
+      case "deleteFromCart": {
+        if (action.productId) {
+          const cart = state.cart.map((o) => Object.assign({}, o));
+          const productIndex = state.cart.findIndex(
+            (p) => p.productId === action.productId
+          );
+          if (productIndex !== -1) {
+            cart.splice(productIndex, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            return {
+              ...state,
+              cart,
+            };
+          }
         }
         return state;
       }
@@ -57,10 +98,15 @@ function ShopContextProvider({ children }: React.PropsWithChildren) {
   });
 
   const shopMethods: IShopContext = {
-    addToCart(productId) {
-      dispatch({ type: "addToCart", productId });
+    addToCart(productId, title, price) {
+      dispatch({ type: "addToCart", productId, title, price });
     },
-    removeFromCart() {},
+    removeFromCart(productId) {
+      dispatch({ type: "removeFromCart", productId });
+    },
+    deleteFromCart(productId) {
+      dispatch({ type: "deleteFromCart", productId });
+    },
     cart: state.cart,
   };
   return (

@@ -5,6 +5,7 @@ import styles from "@/styles/components/layout-elements/topbar/Topbar.module.css
 
 import { useContext } from "react";
 import { ShopContext } from "@/contextes/ShopContext";
+import Image from "next/image";
 
 function Topbar() {
   const { cart } = useContext(ShopContext);
@@ -24,7 +25,12 @@ function Topbar() {
       <Link href={"/ads/create"} className={styles.addAdButton}>
         Ajouter une annonce
       </Link>
-      Panier : ({cart.length})
+      <div className={styles.cart}>
+        <Link href="/checkout">
+          <Image src="/cart.png" alt="cart" width={50} height={50} />
+          <div className={styles.cartNumber}>{cart.length}</div>
+        </Link>
+      </div>
     </nav>
   );
 }
