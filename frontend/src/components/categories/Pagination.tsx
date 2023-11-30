@@ -42,6 +42,7 @@ function Pagination({ count }: IPagination) {
           const actualPage = p == +page;
           return (
             <div
+              key={p}
               className={`${styles.pagebutton} ${
                 actualPage && styles.actualPage
               }`}

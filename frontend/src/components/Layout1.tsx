@@ -1,7 +1,11 @@
+// import dynamic from "next/dynamic";
 import CategoriesBar from "./layout-elements/CategoriesBar";
 import Footer from "./layout-elements/Footer";
 import Topbar from "./layout-elements/topbar/Topbar";
 import styles from "@/styles/components/Layout1.module.css";
+
+// const Topbar = dynamic(() => import('./layout-elements/topbar/Topbar'), { ssr: false })
+
 function Layout1({ children }: { children: JSX.Element }) {
   return (
     <div className={styles.mainBloc}>

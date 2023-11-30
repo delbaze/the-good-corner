@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { ShopContext } from "@/contextes/ShopContext";
 
 function Topbar() {
-  const { addToCart } = useContext(ShopContext);
+  const { cart } = useContext(ShopContext);
   return (
     <nav className={styles.topbar}>
       <div className={styles.logoBloc}>
@@ -24,7 +24,7 @@ function Topbar() {
       <Link href={"/ads/create"} className={styles.addAdButton}>
         Ajouter une annonce
       </Link>
-      <button onClick={() => addToCart("youhou")}>Test</button>
+      Panier : ({cart.length})
     </nav>
   );
 }

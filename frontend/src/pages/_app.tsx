@@ -7,7 +7,10 @@ import { NextComponentType, NextPageContext } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import ShopContextProvider from "@/contextes/ShopContext";
+// import ShopContextProvider from "@/contextes/ShopContext";
+import dynamic from "next/dynamic";
+const ShopContextProvider = dynamic(() => import('@/contextes/ShopContext'), { ssr: false })
+
 
 const client = new ApolloClient({
   uri: "http://localhost:4000",
@@ -21,6 +24,7 @@ interface ComponentWithTitle extends AppProps {
     title?: string;
   };
 }
+
 export default function App({ Component, pageProps }: ComponentWithTitle) {
   return (
     <>
