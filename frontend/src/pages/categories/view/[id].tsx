@@ -26,7 +26,6 @@ function ViewCategory() {
     if (router.query.id) {
       callAds();
       router.push({ query: { ...router.query, offset: 0, page: 1 } });
-
     }
   }, [router.query.id]);
   useEffect(() => {

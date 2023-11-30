@@ -3,7 +3,7 @@ import { createContext, useReducer } from "react";
 interface IShopContext {
   addToCart: (productId: string) => void;
   removeFromCart: () => void;
-  cart: string[];
+  cart: CartObjet[];
 }
 
 interface CartObjet {
@@ -12,7 +12,6 @@ interface CartObjet {
 }
 interface IState {
   cart: CartObjet[];
-  // cart: string[];
 }
 interface IAction {
   type: string;
@@ -24,10 +23,16 @@ function ShopContextProvider({ children }: React.PropsWithChildren) {
   function reducer(state: IState, action: IAction) {
     switch (action.type) {
       case "addToCart": {
+   
         if (action.productId) {
-          //[{productId: "toto", quantity: 1}]
-          //verifier dans le cart existant (state.cart) que le produit existe (est ce qu'un objet ayant comme valeur l'id reçu dans la clé productId existe)
-          const cart = [...state.cart, action.productId];
+          let cart = [...state.cart]
+          const objectInCart = cart.find(object => object.productId === action.productId)
+          if(objectInCart) {
+            const objectIndex = cart.indexOf(objectInCart);
+            cart[objectIndex].quantity ++
+          } else {
+            cart.push({productId: action.productId, quantity: 1})
+          }
           localStorage.setItem("cart", JSON.stringify(cart));
           return {
             ...state,
