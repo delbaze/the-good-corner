@@ -12,13 +12,23 @@ function Pagination({ count }: IPagination) {
     const p = router.query.page ?? 1;
     const limit = router.query.limit ?? 5;
     router.push({
-      query: { ...router.query, offset: +limit * +p, limit: e.target.value },
+      query: {
+        ...router.query,
+        offset: p == 1 ? 0 : +limit * +p,
+        limit: e.target.value,
+      },
     });
   };
 
   const handleChangePage = (p: number) => {
     const limit = router.query.limit ?? 5;
-    router.push({ query: { ...router.query, offset: +limit * p, page: p } });
+    router.push({
+      query: {
+        ...router.query,
+        offset: p == 1 ? 0 : +limit * (+p - 1),
+        page: p,
+      },
+    });
   };
   return (
     <div>

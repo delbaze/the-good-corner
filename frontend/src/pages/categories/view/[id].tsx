@@ -10,28 +10,43 @@ function ViewCategory() {
   const [getAds, { data }] = useListAdsByCategoryLazyQuery({
     fetchPolicy: "no-cache",
   });
-  useEffect(() => {
-    if (router.query.id) {
-      getAds({
-        variables: {
-          listAdsByCategoryId: router.query.id as string,
-        },
-      });
-    }
-  }, [router.query.id]);
 
-  useEffect(() => {
+  const callAds = () => {
     const limit = router.query.limit as string;
     const offset = router.query.offset as string;
     getAds({
       variables: {
         listAdsByCategoryId: router.query.id as string,
-        limit: +limit,
-        offset: +offset,
+        limit: limit ? +limit : 5,
+        offset: offset ? +offset : 0,
       },
-      fetchPolicy: "no-cache",
     });
+  };
+  useEffect(() => {
+    if (router.query.id) {
+      callAds();
+      router.push({ query: { ...router.query, offset: 0, page: 1 } });
+
+    }
+  }, [router.query.id]);
+  useEffect(() => {
+    if (router.query.id) {
+      callAds();
+    }
   }, [router.query.limit, router.query.offset]);
+
+  // useEffect(() => {
+  //   const limit = router.query.limit as string;
+  //   const offset = router.query.offset as string;
+  //   getAds({
+  //     variables: {
+  //       listAdsByCategoryId: router.query.id as string,
+  //       limit: limit ? +limit : 5,
+  //       offset: offset ? +offset : 5,
+  //     },
+  //     fetchPolicy: "no-cache",
+  //   });
+  // }, [router.query.limit, router.query.offset]);
 
   return (
     <div>
@@ -54,9 +69,7 @@ function ViewCategory() {
               ))}
             </div>
             <div>
-              <Pagination
-                count={data?.listAdsByCategory.count}
-              />
+              <Pagination count={data?.listAdsByCategory.count} />
             </div>
           </>
         ) : (
