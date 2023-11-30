@@ -59,7 +59,8 @@ export default class AdsService {
     const [ads, count] = await this.db.findAndCount({
       where: { category: { id } },
       order: { createdAt: "DESC" },
-      take: 5
+      take: 5,
+      // skip: 5
     });
 
     return { ads, count };

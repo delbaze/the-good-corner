@@ -12,6 +12,6 @@
 
 ☐ gérer une pagination pour n'afficher 20 annonces par page
 
-☐ l'ajout au panier (contexte react) 
+☐ l'ajout au panier (contexte react)
 ☐ page de checkout (recapitulatif de la commande);
 ☐ Envoi d'image pour l'annonce dans un service à part (micro-service)
