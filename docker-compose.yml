@@ -24,6 +24,8 @@ services:
       - WDS_SOCKET_HOST=127.0.0.1
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
+      - NEXT_PUBLIC_IMAGE_URL=http://localhost:8000
+
     # env_file:
     #   - ./.env
   db:
@@ -49,6 +51,17 @@ services:
     restart: always
     ports:
       - 8080:8080
+  images:
+    build: ./images
+    volumes:
+      - ./images/src:/app/src
+      - ./images/uploads:/app/uploads
+    ports:
+      - 8000:8000
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
 
 volumes:
   thegoodcorner-data:

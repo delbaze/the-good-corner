@@ -10,7 +10,7 @@ function Card({ id, picture, price, title }: IAdCard) {
     <div className={styles.card}>
       <div>{title}</div>
       <Link href={`/ads/view/${id}`} className={styles.imageBloc}>
-        <img src={picture} className={styles.imageAd} />
+        <img src={picture.startsWith("/files") ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${picture}` : picture} className={styles.imageAd} />
       </Link>
       <div className={styles.bottomCard}>
         <div className={styles.adCardPrice}>{formatAmount(price)}</div>

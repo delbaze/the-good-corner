@@ -3,15 +3,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useRouter } from "next/router";
 import { errorManager } from "@/lib/utilities";
-import { useQuery, useMutation } from "@apollo/client";
-import { LIST_CATEGORIES } from "@/requetes/queries/categories.queries";
-import { CREATE_AD } from "@/requetes/mutations/ads.mutations";
-import {
-  CreateAdMutation,
-  CreateAdMutationVariables,
-  useCreateAdMutation,
-  useListCategoriesQuery,
-} from "@/types/graphql";
+import { useCreateAdMutation, useListCategoriesQuery } from "@/types/graphql";
+import { useState } from "react";
+import Image from "next/image";
+import axios from "axios";
 
 const schema = yup
   .object({
@@ -26,7 +21,7 @@ const schema = yup
       .positive("Le nombre doit être positif")
       .required("Le prix est requis"),
     location: yup.string().required("L'emplacement est requis"),
-    picture: yup.string().required("L'image est requise"),
+    picture: yup.mixed().required("L'image est requise"),
     category: yup
       .number()
       .typeError("Indiquez une catégorie")
@@ -35,6 +30,7 @@ const schema = yup
   .required();
 
 export default function FormReactHook() {
+  const [preview, setPreview] = useState<string>("");
   const { data: dataCategories } = useListCategoriesQuery();
   // const { data: dataCategories } = useQuery(LIST_CATEGORIES);
   const [createAd] = useCreateAdMutation(
@@ -42,8 +38,6 @@ export default function FormReactHook() {
     //   CREATE_AD,
     {
       onCompleted(data) {
-        console.log("DATA");
-        //si tout se passe bien, rediriger vers la catégorie
         router.push(`/categories/view/${data?.createAd?.category.id}`);
       },
       onError(error, clientOptions) {
@@ -51,7 +45,6 @@ export default function FormReactHook() {
       },
     }
   );
-  // const [categories, setCategories] = useState<Category[]>([]);
   const router = useRouter();
   const {
     register,
@@ -65,38 +58,27 @@ export default function FormReactHook() {
   console.log("errors", errors);
   const onSubmit = (data: any) => {
     const { category, ...formulaireData } = data;
-    createAd({
-      variables: {
-        // data: {},
-        data: { ...formulaireData, category: { id: category } },
-      },
-    });
-
-    // axiosInstance
-    //   .post("/ads/create", { ...formulaireData, category: { id: category } })
-    //   .then(({ data }) => {
-    //     //si tout se passe bien, rediriger vers la catégorie
-    //     router.push(`/categories/view/${data.category.id}`);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     errorManager(setError, err); //! prévoir la gestion des erreurs
-    //     // setErrors(err.response.data?.errors);
-    //   });
+    if (data.picture.length) {
+      const formData = new FormData();
+      formData.append("file", data.picture[0], data.picture[0].name);
+      axios
+        .post(`${process.env.NEXT_PUBLIC_IMAGE_URL}/upload`, formData)
+        .then((result) => {
+          if (result?.data.status == "success") {
+            createAd({
+              variables: {
+                data: {
+                  ...formulaireData,
+                  category: { id: category },
+                  picture: result.data.filename,
+                },
+              },
+            });
+          }
+        });
+    }
   };
 
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get<Category[]>("/categories/list", {})
-  //     .then(({ data }) => setCategories(data))
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-
-  //   // if (initialData) {
-  //   //   setFormulaireData(initialData);
-  //   // }
-  // }, []);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input {...register("title")} placeholder="Titre" />
@@ -111,8 +93,23 @@ export default function FormReactHook() {
       <input {...register("price")} placeholder="Prix" />
       <p>{errors.price?.message}</p>
 
-      <input {...register("picture")} placeholder="Image" />
+      <input
+        type="file"
+        accept="image/*"
+        {...register("picture", {
+          onChange: (e) => {
+            setPreview(URL.createObjectURL(e.target.files[0]));
+          },
+        })}
+        placeholder="Image"
+      />
       <p>{errors.picture?.message}</p>
+
+      {preview && (
+        <div>
+          <Image src={preview} alt="preview" width={50} height={50} />
+        </div>
+      )}
 
       <input {...register("location")} placeholder="Emplacement" />
       <p>{errors.location?.message}</p>
