@@ -18,7 +18,7 @@ function Checkout() {
         </thead>
         <tbody>
           {cart.map((e) => (
-            <tr>
+            <tr key={e.productId}>
               <th scope="row">{e.title}</th>
               <td>
                 <button
