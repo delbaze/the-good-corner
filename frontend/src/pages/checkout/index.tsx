@@ -3,7 +3,8 @@ import { formatAmount } from "@/lib/utilities";
 import { useContext } from "react";
 
 function Checkout() {
-  const { cart, addToCart, removeFromCart, deleteFromCart } = useContext(ShopContext);
+  const { cart, addToCart, removeFromCart, deleteFromCart } =
+    useContext(ShopContext);
   return (
     <div>
       <table>
@@ -20,7 +21,12 @@ function Checkout() {
             <tr>
               <th scope="row">{e.title}</th>
               <td>
-                <button disabled={e.quantity === 1} onClick={() => removeFromCart(e.productId)}>-</button>
+                <button
+                  disabled={e.quantity === 1}
+                  onClick={() => removeFromCart(e.productId)}
+                >
+                  -
+                </button>
                 {e.quantity}
                 <button
                   onClick={() => addToCart(e.productId, e.title, e.price)}
@@ -30,7 +36,9 @@ function Checkout() {
               </td>
               <td>{formatAmount(e.price * e.quantity)}</td>
               <td>
-                <button onClick={() => deleteFromCart(e.productId)}>Supprimer</button>
+                <button onClick={() => deleteFromCart(e.productId)}>
+                  Supprimer
+                </button>
               </td>
             </tr>
           ))}

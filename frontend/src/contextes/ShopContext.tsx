@@ -54,9 +54,15 @@ function ShopContextProvider({ children }: React.PropsWithChildren) {
       }
       case "removeFromCart": {
         if (action.productId) {
-          const cart = state.cart.map((o) => Object.assign({}, o));
+          // const cart = state.cart.map((o) => Object.assign({}, o));
+          const cart = state.cart.map((o) => {
+            if (o.productId == action.productId) {
+              return Object.assign({}, o);
+            }
+            return o;
+          });
           const product = cart.find((p) => p.productId === action.productId);
-          product?.quantity && product.quantity--;
+          product?.quantity && product?.quantity > 1 && product.quantity--;
           localStorage.setItem("cart", JSON.stringify(cart));
           return {
             ...state,
@@ -67,7 +73,7 @@ function ShopContextProvider({ children }: React.PropsWithChildren) {
       }
       case "deleteFromCart": {
         if (action.productId) {
-          const cart = state.cart.map((o) => Object.assign({}, o));
+          const cart = [...state.cart];
           const productIndex = state.cart.findIndex(
             (p) => p.productId === action.productId
           );
